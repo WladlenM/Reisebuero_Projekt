@@ -4,6 +4,7 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include <QTableWidgetItem>
 #include "travelagency.h"
 
 
@@ -29,6 +30,14 @@ private slots:
     //void handleItemDoubleClicked(QListWidgetItem *item, QListWidget *details,QListWidget *list);
 
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
+
+    void on_actionSuchen_triggered();
+
+   // void on_tableWidgetReisen_cellDoubleClicked(int row, int column);
+
+    void on_tableWidgetReisen_itemDoubleClicked(QTableWidgetItem *item);
+
+    void on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *item);
 
 private:
     Ui::MainWindow *ui;

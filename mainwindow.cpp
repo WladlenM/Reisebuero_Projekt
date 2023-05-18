@@ -9,6 +9,7 @@
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QListWidgetItem>
+#include <QInputDialog>
 
 
 
@@ -16,7 +17,11 @@ MainWindow::MainWindow(TravelAgency travelAgentur, QWidget *parent)
     : QMainWindow(parent),ReiseAgentur(travelAgentur)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);    
+    ui->setupUi(this);
+    ui->groupBoxKunde->hide();
+    ui->groupBoxReise->hide();
+    ui->groupBoxBuchungdetails->hide();
+
 }
 
 MainWindow::~MainWindow()
@@ -35,7 +40,7 @@ QString MainWindow::readJsonFile(QString fileName)
 
 void MainWindow::on_actionEinlesen_2_triggered()
 {
-    ui->listWidget->clear();
+    //ui->listWidget->clear();
     QString fileName = QFileDialog::getOpenFileName(this,tr("Datei öffnen"), QDir::homePath());
 
     QString msgFileText = readJsonFile(fileName);
@@ -88,18 +93,18 @@ void MainWindow::on_actionEinlesen_2_triggered()
     {
         msgBox.setText(msgFileText);
         msgBox.exec();
-        for(int i=0;i<ReiseAgentur.getBookings().size();i++)
+        /*for(int i=0;i<ReiseAgentur.getBookings().size();i++)
         {
             QString ausgabeText=QString::fromStdString(ReiseAgentur.getBookings()[i]->showDetails());
 
             ui->listWidget->addItem(ausgabeText);
-        }
+        }*/
     }
 }
 
 void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
-    for(int i=0;i<ReiseAgentur.getBookings().size();i++)
+    /*for(int i=0;i<ReiseAgentur.getBookings().size();i++)
     {
         QString ausgabeText=QString::fromStdString(ReiseAgentur.getBookings()[i]->showDetails());
         if(item->text()==ausgabeText)
@@ -155,6 +160,223 @@ void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
                 ui->lineEditKlasseMietwagen->setText(vehicleClass);
             }
         }
+    }*/
+}
+
+
+void MainWindow::on_actionSuchen_triggered()
+{
+    int KundenId = QInputDialog::getInt(this,tr("Kund*innensuche"),tr("Gib Id ein: "));
+    QMessageBox msgBox;
+    if(ReiseAgentur.findCustomer(KundenId)==nullptr)
+    {
+        QString errorText = "Kunden-Id ist nicht vorhanden!";
+        msgBox.setText(errorText);
+        msgBox.exec();
     }
+    else
+    {
+        int counter = 0;
+        QString CustomerID;
+        QString CustomerName;
+        ui->tableWidgetReisen->setColumnCount(3);
+        QStringList headerLabels;
+        headerLabels << "Reise-ID" << "Beginn der Reise" << "Ender der Reise";
+        ui->tableWidgetReisen->setHorizontalHeaderLabels(headerLabels);
+        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        {
+            if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
+            {
+                counter++;
+            }
+        }
+        ui->tableWidgetReisen->setRowCount(counter);
+        int row=0;
+        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        {
+            if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
+            {
+                QString reiseId = QString::number(ReiseAgentur.getAllTravels()[i]->getId());
+                QTableWidgetItem* itemReiseId = new QTableWidgetItem(reiseId);
+                itemReiseId->setFlags(itemReiseId->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetReisen->setItem(row,0,itemReiseId);
+                row++;
+            }
+    }
+
+        int rowStartDate=0;
+        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        {
+            if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
+            {
+                QDate fromDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[0]->getFromDate()),"yyyyMMdd");
+                QString startDatum = fromDate.toString();
+                QTableWidgetItem* itemStartDatum = new QTableWidgetItem(startDatum);
+                itemStartDatum->setFlags(itemStartDatum->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetReisen->setItem(rowStartDate,1,itemStartDatum);
+                rowStartDate++;
+            }
+        }
+
+        int rowEndDate=0;
+        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        {
+            if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
+            {
+                QDate toDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getToDate()),"yyyyMMdd");
+                QString endDatum = toDate.toString();
+                QTableWidgetItem* itemEndDatum = new QTableWidgetItem(endDatum);
+                itemEndDatum->setFlags(itemEndDatum->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetReisen->setItem(rowEndDate,2,itemEndDatum);
+                rowEndDate++;
+            }
+        }
+
+        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        {
+            if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
+            {
+                long tmpKundId = ReiseAgentur.getAllTravels()[i]->getCustomerId();
+                CustomerID = QString::number(ReiseAgentur.getAllTravels()[i]->getCustomerId());
+                for(int j=0;j<ReiseAgentur.getAllCustomers().size();j++)
+                {
+                    if(ReiseAgentur.getAllCustomers()[j]->getId()==tmpKundId)
+                    {
+                        CustomerName = QString::fromStdString(ReiseAgentur.getAllCustomers()[j]->getName());
+                    }
+                }
+            }
+        }
+        ui->lineEditId->setText(CustomerID);
+        ui->lineEditName->setText(CustomerName);
+
+        ui->groupBoxKunde->show();
+    }
+}
+
+
+/*void MainWindow::on_tableWidgetReisen_cellDoubleClicked(int row, int column)
+{
+
+    int test = ui->tableWidgetReisen->rowCount()-1;
+    if(row==row)
+    {
+
+    }
+}*/
+
+
+void MainWindow::on_tableWidgetReisen_itemDoubleClicked(QTableWidgetItem *item)
+{
+    ui->tableWidgetBuchungen->setColumnCount(4);
+    QStringList headerLabels;
+    headerLabels << "Buchungstyp" << "Start" << "Ende" << "Preis";
+    ui->tableWidgetBuchungen->setHorizontalHeaderLabels(headerLabels);
+    int size = 0;
+
+    for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+    {
+        QString reiseId = QString::number(ReiseAgentur.getAllTravels()[i]->getId());
+        QDate fromDate =QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[0]->getFromDate()),"yyyyMMdd");
+        QString startDatum = fromDate.toString();
+
+        QDate toDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getToDate()),"yyyyMMdd");
+        QString endDatum = toDate.toString();
+
+        if(item->text()==reiseId||startDatum==item->text()||endDatum==item->text())
+        {
+            size = ReiseAgentur.getAllTravels()[i]->getTravelBookings().size();
+        }
+    }
+    ui->tableWidgetBuchungen->setRowCount(size);
+
+    for(int i=0;ReiseAgentur.getAllTravels().size();i++)
+    {
+        QString reiseId = QString::number(ReiseAgentur.getAllTravels()[i]->getId());
+        QDate fromDate =QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[0]->getFromDate()),"yyyyMMdd");
+        QString startDatum = fromDate.toString();
+
+        QDate toDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getToDate()),"yyyyMMdd");
+        QString endDatum = toDate.toString();
+
+        if(reiseId==item->text()||startDatum==item->text()||endDatum==item->text())
+        {
+            ui->lineEditReiseID->setText(reiseId);
+            break;
+        }
+    }
+
+    int rowBuchungen=0;
+    for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+    {
+        QString reiseId = QString::number(ReiseAgentur.getAllTravels()[i]->getId());
+        QDate fromDate =QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[0]->getFromDate()),"yyyyMMdd");
+        QString startDatum = fromDate.toString();
+
+        QDate toDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getToDate()),"yyyyMMdd");
+        QString endDatum = toDate.toString();
+
+        if(reiseId==item->text()||startDatum==item->text()||endDatum==item->text())
+        {
+            int anzBuchungen = ReiseAgentur.getAllTravels()[i]->getTravelBookings().size();
+            for(int j=0;j<anzBuchungen;j++)
+            {
+                QString type = QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->showDetails());
+                if(type.contains("Flugbuchung"))
+                {
+                    QIcon icon(":/new/Icon/airplane-png.png");
+                    QTableWidgetItem* itemType = new QTableWidgetItem;
+                    itemType->setIcon(icon);
+                    itemType->setFlags(itemType->flags() & ~Qt::ItemIsEditable);
+                    ui->tableWidgetBuchungen->setItem(rowBuchungen,0,itemType);
+                }
+                else if(type.contains("Mietwagenreservierung"))
+                {
+                    QIcon icon(":/new/Icon/car_vehicle_transport_icon_144665.png");
+                    QTableWidgetItem* itemType = new QTableWidgetItem;
+                    itemType->setIcon(icon);
+                    itemType->setFlags(itemType->flags() & ~Qt::ItemIsEditable);
+                    ui->tableWidgetBuchungen->setItem(rowBuchungen,0,itemType);
+                }
+                else if(type.contains("Hotelreservierung"))
+                {
+                    QIcon icon(":/new/Icon/Hotel-png.png");
+                    QTableWidgetItem* itemType = new QTableWidgetItem;
+                    itemType->setIcon(icon);
+                    itemType->setFlags(itemType->flags() & ~Qt::ItemIsEditable);
+                    ui->tableWidgetBuchungen->setItem(rowBuchungen,0,itemType);
+                }
+                QDate buchungFromDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->getFromDate()),"yyyyMMdd");
+                QString buchungStartDatum = buchungFromDate.toString();
+
+                QTableWidgetItem* itemStartDatum = new QTableWidgetItem(buchungStartDatum);
+                itemStartDatum->setFlags(itemStartDatum->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetBuchungen->setItem(rowBuchungen,1,itemStartDatum);
+
+                QDate buchungToDate = QDate::fromString(QString::fromStdString(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->getToDate()),"yyyyMMdd");
+                QString buchungEndDatum = buchungToDate.toString();
+
+                QTableWidgetItem* itemEndDatum = new QTableWidgetItem(buchungEndDatum);
+                itemEndDatum->setFlags(itemEndDatum->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetBuchungen->setItem(rowBuchungen,2,itemEndDatum);
+
+                QString buchungPreis = QString::number(ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->getPrice());
+
+                QTableWidgetItem* itemPreis = new QTableWidgetItem(buchungPreis);
+                itemPreis->setFlags(itemPreis->flags() & ~Qt::ItemIsEditable);
+                ui->tableWidgetBuchungen->setItem(rowBuchungen,3,itemPreis);
+                rowBuchungen++;
+            }
+        }
+    }
+
+    ui->groupBoxReise->show();
+}
+
+
+void MainWindow::on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *item)
+{
+
+    ui->groupBoxBuchungdetails->show();
 }
 

@@ -29,6 +29,8 @@ public:
     Customer* findCustomer(long id);
     void clearData();
 
+    std::vector<Travel *> getAllTravels() const;
+    std::vector<Customer *> getAllCustomers() const;
 };
 
 #endif // TRAVELAGENCY_H

@@ -17,6 +17,7 @@ public:
     void addTravel(Travel* travel);
     long getId() const;
     std::string getName() const;
+    std::vector<Travel *> getTravelList() const;
 };
 
 #endif // CUSTOMER_H

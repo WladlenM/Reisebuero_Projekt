@@ -17,15 +17,15 @@
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -36,404 +36,414 @@ class Ui_MainWindow
 public:
     QAction *actionEinlesen;
     QAction *actionEinlesen_2;
+    QAction *actionSuchen;
     QWidget *centralwidget;
-    QVBoxLayout *verticalLayout_8;
-    QSplitter *splitter;
-    QGroupBox *groupBoxBuchungen;
-    QHBoxLayout *horizontalLayout;
-    QListWidget *listWidget;
-    QTabWidget *tabWidget;
-    QWidget *tabFlugbuchung;
-    QFormLayout *formLayout;
-    QHBoxLayout *horizontalLayout_2;
-    QVBoxLayout *verticalLayout_4;
-    QLabel *label;
-    QLabel *label_2;
-    QLabel *label_3;
-    QLabel *label_8;
-    QLabel *label_7;
-    QLabel *label_4;
-    QLabel *label_5;
-    QLabel *label_6;
-    QVBoxLayout *verticalLayout;
-    QLineEdit *lineEditIdFlug;
-    QDateEdit *dateEditAbflugFlug;
-    QDateEdit *dateEditAnkuftFlug;
-    QLineEdit *lineEditFluglinieFlug;
-    QLineEdit *lineEditKlasseFlug;
-    QLineEdit *lineEditVonFlug;
-    QLineEdit *lineEditNachFlug;
-    QDoubleSpinBox *doubleSpinBoxPreisFlug;
-    QWidget *tabMietwagenreservierung;
-    QFormLayout *formLayout_3;
+    QHBoxLayout *horizontalLayout_5;
     QHBoxLayout *horizontalLayout_4;
+    QGroupBox *groupBoxKunde;
+    QVBoxLayout *verticalLayout_7;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout;
+    QLabel *label;
+    QLineEdit *lineEditId;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *label_2;
+    QLineEdit *lineEditName;
+    QFormLayout *formLayout;
+    QLabel *label_3;
+    QTableWidget *tableWidgetReisen;
+    QGroupBox *groupBoxReise;
     QVBoxLayout *verticalLayout_6;
-    QLabel *label_16;
-    QLabel *label_17;
-    QLabel *label_18;
-    QLabel *label_22;
-    QLabel *label_19;
-    QLabel *label_20;
-    QLabel *label_23;
-    QLabel *label_21;
-    QVBoxLayout *verticalLayout_3;
-    QLineEdit *lineEditIdMietwagen;
-    QDateEdit *dateEditVonMietwagen;
-    QDateEdit *dateEditBisMietwagen;
-    QLineEdit *lineEditFirmaMietwageb;
-    QLineEdit *lineEditAbholortMietwagen;
-    QLineEdit *lineEditAbgabeortMietwagen;
-    QLineEdit *lineEditKlasseMietwagen;
-    QDoubleSpinBox *doubleSpinBoxPreisMietwagen;
-    QWidget *tabHotelbuchung;
-    QFormLayout *formLayout_2;
-    QHBoxLayout *horizontalLayout_3;
-    QVBoxLayout *verticalLayout_5;
-    QLabel *label_9;
-    QLabel *label_10;
-    QLabel *label_11;
-    QLabel *label_12;
-    QLabel *label_13;
-    QLabel *label_15;
-    QLabel *label_14;
     QVBoxLayout *verticalLayout_2;
-    QLineEdit *lineEditIdHotel;
-    QDateEdit *dateAnkunftHotel;
-    QDateEdit *dateEditAbreiseHotel;
-    QLineEdit *lineEditHotelHotel;
-    QLineEdit *lineEditSTadtHotel;
-    QLineEdit *lineEditZimmerHotel;
-    QDoubleSpinBox *doubleSpinBoxPreisHotel;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_4;
+    QLineEdit *lineEditReiseID;
+    QFormLayout *formLayout_2;
+    QLabel *label_5;
+    QTableWidget *tableWidgetBuchungen;
+    QGroupBox *groupBoxBuchungdetails;
+    QVBoxLayout *verticalLayout_5;
+    QVBoxLayout *verticalLayout_3;
+    QFormLayout *formLayout_6;
+    QLabel *label_17;
+    QLineEdit *lineEditBuchungId;
+    QLabel *label_18;
+    QDateEdit *dateEditStartDatum;
+    QLabel *label_19;
+    QDateEdit *dateEditEndDatum;
+    QLabel *label_20;
+    QDoubleSpinBox *doubleSpinBoxPreis;
+    QTabWidget *tabWidgetBuchungTyp;
+    QWidget *tabFlugbuchung;
+    QVBoxLayout *verticalLayout_4;
+    QFormLayout *formLayout_3;
+    QLabel *label_6;
+    QLineEdit *lineEditFlugzeug;
+    QLabel *label_7;
+    QLineEdit *lineEditvonFlug;
+    QLabel *label_8;
+    QLineEdit *lineEditbisFlug;
+    QLabel *label_9;
+    QLineEdit *lineEditFlugsitz;
+    QWidget *tabHotelbuchung;
+    QHBoxLayout *horizontalLayout_6;
+    QFormLayout *formLayout_4;
+    QLabel *label_10;
+    QLineEdit *lineEditHotel;
+    QLabel *label_11;
+    QLineEdit *lineEditStadt;
+    QLabel *label_12;
+    QLineEdit *lineEditZimmertyp;
+    QWidget *tabMietwagenreservierung;
+    QHBoxLayout *horizontalLayout_7;
+    QFormLayout *formLayout_5;
+    QLabel *label_13;
+    QLineEdit *lineEditFirma;
+    QLabel *label_14;
+    QLineEdit *lineEditAbholort;
+    QLabel *label_15;
+    QLineEdit *lineEditAbgabeort;
+    QLabel *label_16;
+    QLineEdit *lineEditFahrzeugKlasse;
     QStatusBar *statusbar;
     QMenuBar *menubar;
     QMenu *menuDatei;
-    QMenu *menuBuchung;
+    QMenu *menuKunde;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(800, 600);
+        MainWindow->resize(764, 559);
         actionEinlesen = new QAction(MainWindow);
         actionEinlesen->setObjectName("actionEinlesen");
         actionEinlesen_2 = new QAction(MainWindow);
         actionEinlesen_2->setObjectName("actionEinlesen_2");
+        actionSuchen = new QAction(MainWindow);
+        actionSuchen->setObjectName("actionSuchen");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        verticalLayout_8 = new QVBoxLayout(centralwidget);
-        verticalLayout_8->setObjectName("verticalLayout_8");
-        splitter = new QSplitter(centralwidget);
-        splitter->setObjectName("splitter");
-        splitter->setOrientation(Qt::Horizontal);
-        groupBoxBuchungen = new QGroupBox(splitter);
-        groupBoxBuchungen->setObjectName("groupBoxBuchungen");
-        horizontalLayout = new QHBoxLayout(groupBoxBuchungen);
+        horizontalLayout_5 = new QHBoxLayout(centralwidget);
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName("horizontalLayout_4");
+        groupBoxKunde = new QGroupBox(centralwidget);
+        groupBoxKunde->setObjectName("groupBoxKunde");
+        groupBoxKunde->setEnabled(true);
+        verticalLayout_7 = new QVBoxLayout(groupBoxKunde);
+        verticalLayout_7->setObjectName("verticalLayout_7");
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName("verticalLayout");
+        horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName("horizontalLayout");
-        listWidget = new QListWidget(groupBoxBuchungen);
-        listWidget->setObjectName("listWidget");
-
-        horizontalLayout->addWidget(listWidget);
-
-        splitter->addWidget(groupBoxBuchungen);
-        tabWidget = new QTabWidget(splitter);
-        tabWidget->setObjectName("tabWidget");
-        tabFlugbuchung = new QWidget();
-        tabFlugbuchung->setObjectName("tabFlugbuchung");
-        formLayout = new QFormLayout(tabFlugbuchung);
-        formLayout->setObjectName("formLayout");
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName("horizontalLayout_2");
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setObjectName("verticalLayout_4");
-        label = new QLabel(tabFlugbuchung);
+        label = new QLabel(groupBoxKunde);
         label->setObjectName("label");
 
-        verticalLayout_4->addWidget(label);
+        horizontalLayout->addWidget(label);
 
-        label_2 = new QLabel(tabFlugbuchung);
+        lineEditId = new QLineEdit(groupBoxKunde);
+        lineEditId->setObjectName("lineEditId");
+        lineEditId->setReadOnly(true);
+
+        horizontalLayout->addWidget(lineEditId);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName("horizontalLayout_2");
+        label_2 = new QLabel(groupBoxKunde);
         label_2->setObjectName("label_2");
 
-        verticalLayout_4->addWidget(label_2);
+        horizontalLayout_2->addWidget(label_2);
 
-        label_3 = new QLabel(tabFlugbuchung);
+        lineEditName = new QLineEdit(groupBoxKunde);
+        lineEditName->setObjectName("lineEditName");
+        lineEditName->setReadOnly(true);
+
+        horizontalLayout_2->addWidget(lineEditName);
+
+
+        verticalLayout->addLayout(horizontalLayout_2);
+
+        formLayout = new QFormLayout();
+        formLayout->setObjectName("formLayout");
+        label_3 = new QLabel(groupBoxKunde);
         label_3->setObjectName("label_3");
 
-        verticalLayout_4->addWidget(label_3);
+        formLayout->setWidget(0, QFormLayout::LabelRole, label_3);
 
-        label_8 = new QLabel(tabFlugbuchung);
-        label_8->setObjectName("label_8");
+        tableWidgetReisen = new QTableWidget(groupBoxKunde);
+        tableWidgetReisen->setObjectName("tableWidgetReisen");
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(tableWidgetReisen->sizePolicy().hasHeightForWidth());
+        tableWidgetReisen->setSizePolicy(sizePolicy);
+        tableWidgetReisen->setFrameShape(QFrame::StyledPanel);
+        tableWidgetReisen->setFrameShadow(QFrame::Sunken);
+        tableWidgetReisen->setHorizontalScrollMode(QAbstractItemView::ScrollPerItem);
+        tableWidgetReisen->setGridStyle(Qt::SolidLine);
+        tableWidgetReisen->horizontalHeader()->setCascadingSectionResizes(false);
 
-        verticalLayout_4->addWidget(label_8);
+        formLayout->setWidget(0, QFormLayout::FieldRole, tableWidgetReisen);
+
+
+        verticalLayout->addLayout(formLayout);
+
+
+        verticalLayout_7->addLayout(verticalLayout);
+
+        groupBoxReise = new QGroupBox(groupBoxKunde);
+        groupBoxReise->setObjectName("groupBoxReise");
+        verticalLayout_6 = new QVBoxLayout(groupBoxReise);
+        verticalLayout_6->setObjectName("verticalLayout_6");
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setObjectName("verticalLayout_2");
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName("horizontalLayout_3");
+        label_4 = new QLabel(groupBoxReise);
+        label_4->setObjectName("label_4");
+
+        horizontalLayout_3->addWidget(label_4);
+
+        lineEditReiseID = new QLineEdit(groupBoxReise);
+        lineEditReiseID->setObjectName("lineEditReiseID");
+        lineEditReiseID->setReadOnly(true);
+
+        horizontalLayout_3->addWidget(lineEditReiseID);
+
+
+        verticalLayout_2->addLayout(horizontalLayout_3);
+
+        formLayout_2 = new QFormLayout();
+        formLayout_2->setObjectName("formLayout_2");
+        label_5 = new QLabel(groupBoxReise);
+        label_5->setObjectName("label_5");
+
+        formLayout_2->setWidget(0, QFormLayout::LabelRole, label_5);
+
+        tableWidgetBuchungen = new QTableWidget(groupBoxReise);
+        tableWidgetBuchungen->setObjectName("tableWidgetBuchungen");
+
+        formLayout_2->setWidget(0, QFormLayout::FieldRole, tableWidgetBuchungen);
+
+
+        verticalLayout_2->addLayout(formLayout_2);
+
+
+        verticalLayout_6->addLayout(verticalLayout_2);
+
+
+        verticalLayout_7->addWidget(groupBoxReise);
+
+
+        horizontalLayout_4->addWidget(groupBoxKunde);
+
+        groupBoxBuchungdetails = new QGroupBox(centralwidget);
+        groupBoxBuchungdetails->setObjectName("groupBoxBuchungdetails");
+        verticalLayout_5 = new QVBoxLayout(groupBoxBuchungdetails);
+        verticalLayout_5->setObjectName("verticalLayout_5");
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName("verticalLayout_3");
+        formLayout_6 = new QFormLayout();
+        formLayout_6->setObjectName("formLayout_6");
+        label_17 = new QLabel(groupBoxBuchungdetails);
+        label_17->setObjectName("label_17");
+
+        formLayout_6->setWidget(0, QFormLayout::LabelRole, label_17);
+
+        lineEditBuchungId = new QLineEdit(groupBoxBuchungdetails);
+        lineEditBuchungId->setObjectName("lineEditBuchungId");
+
+        formLayout_6->setWidget(0, QFormLayout::FieldRole, lineEditBuchungId);
+
+        label_18 = new QLabel(groupBoxBuchungdetails);
+        label_18->setObjectName("label_18");
+
+        formLayout_6->setWidget(1, QFormLayout::LabelRole, label_18);
+
+        dateEditStartDatum = new QDateEdit(groupBoxBuchungdetails);
+        dateEditStartDatum->setObjectName("dateEditStartDatum");
+
+        formLayout_6->setWidget(1, QFormLayout::FieldRole, dateEditStartDatum);
+
+        label_19 = new QLabel(groupBoxBuchungdetails);
+        label_19->setObjectName("label_19");
+
+        formLayout_6->setWidget(2, QFormLayout::LabelRole, label_19);
+
+        dateEditEndDatum = new QDateEdit(groupBoxBuchungdetails);
+        dateEditEndDatum->setObjectName("dateEditEndDatum");
+
+        formLayout_6->setWidget(2, QFormLayout::FieldRole, dateEditEndDatum);
+
+        label_20 = new QLabel(groupBoxBuchungdetails);
+        label_20->setObjectName("label_20");
+
+        formLayout_6->setWidget(3, QFormLayout::LabelRole, label_20);
+
+        doubleSpinBoxPreis = new QDoubleSpinBox(groupBoxBuchungdetails);
+        doubleSpinBoxPreis->setObjectName("doubleSpinBoxPreis");
+
+        formLayout_6->setWidget(3, QFormLayout::FieldRole, doubleSpinBoxPreis);
+
+
+        verticalLayout_3->addLayout(formLayout_6);
+
+        tabWidgetBuchungTyp = new QTabWidget(groupBoxBuchungdetails);
+        tabWidgetBuchungTyp->setObjectName("tabWidgetBuchungTyp");
+        tabFlugbuchung = new QWidget();
+        tabFlugbuchung->setObjectName("tabFlugbuchung");
+        verticalLayout_4 = new QVBoxLayout(tabFlugbuchung);
+        verticalLayout_4->setObjectName("verticalLayout_4");
+        formLayout_3 = new QFormLayout();
+        formLayout_3->setObjectName("formLayout_3");
+        label_6 = new QLabel(tabFlugbuchung);
+        label_6->setObjectName("label_6");
+
+        formLayout_3->setWidget(0, QFormLayout::LabelRole, label_6);
+
+        lineEditFlugzeug = new QLineEdit(tabFlugbuchung);
+        lineEditFlugzeug->setObjectName("lineEditFlugzeug");
+
+        formLayout_3->setWidget(0, QFormLayout::FieldRole, lineEditFlugzeug);
 
         label_7 = new QLabel(tabFlugbuchung);
         label_7->setObjectName("label_7");
 
-        verticalLayout_4->addWidget(label_7);
+        formLayout_3->setWidget(1, QFormLayout::LabelRole, label_7);
 
-        label_4 = new QLabel(tabFlugbuchung);
-        label_4->setObjectName("label_4");
+        lineEditvonFlug = new QLineEdit(tabFlugbuchung);
+        lineEditvonFlug->setObjectName("lineEditvonFlug");
 
-        verticalLayout_4->addWidget(label_4);
+        formLayout_3->setWidget(1, QFormLayout::FieldRole, lineEditvonFlug);
 
-        label_5 = new QLabel(tabFlugbuchung);
-        label_5->setObjectName("label_5");
+        label_8 = new QLabel(tabFlugbuchung);
+        label_8->setObjectName("label_8");
 
-        verticalLayout_4->addWidget(label_5);
+        formLayout_3->setWidget(2, QFormLayout::LabelRole, label_8);
 
-        label_6 = new QLabel(tabFlugbuchung);
-        label_6->setObjectName("label_6");
+        lineEditbisFlug = new QLineEdit(tabFlugbuchung);
+        lineEditbisFlug->setObjectName("lineEditbisFlug");
 
-        verticalLayout_4->addWidget(label_6);
+        formLayout_3->setWidget(2, QFormLayout::FieldRole, lineEditbisFlug);
 
-
-        horizontalLayout_2->addLayout(verticalLayout_4);
-
-        verticalLayout = new QVBoxLayout();
-        verticalLayout->setObjectName("verticalLayout");
-        lineEditIdFlug = new QLineEdit(tabFlugbuchung);
-        lineEditIdFlug->setObjectName("lineEditIdFlug");
-
-        verticalLayout->addWidget(lineEditIdFlug);
-
-        dateEditAbflugFlug = new QDateEdit(tabFlugbuchung);
-        dateEditAbflugFlug->setObjectName("dateEditAbflugFlug");
-        dateEditAbflugFlug->setCalendarPopup(true);
-
-        verticalLayout->addWidget(dateEditAbflugFlug);
-
-        dateEditAnkuftFlug = new QDateEdit(tabFlugbuchung);
-        dateEditAnkuftFlug->setObjectName("dateEditAnkuftFlug");
-
-        verticalLayout->addWidget(dateEditAnkuftFlug);
-
-        lineEditFluglinieFlug = new QLineEdit(tabFlugbuchung);
-        lineEditFluglinieFlug->setObjectName("lineEditFluglinieFlug");
-
-        verticalLayout->addWidget(lineEditFluglinieFlug);
-
-        lineEditKlasseFlug = new QLineEdit(tabFlugbuchung);
-        lineEditKlasseFlug->setObjectName("lineEditKlasseFlug");
-
-        verticalLayout->addWidget(lineEditKlasseFlug);
-
-        lineEditVonFlug = new QLineEdit(tabFlugbuchung);
-        lineEditVonFlug->setObjectName("lineEditVonFlug");
-
-        verticalLayout->addWidget(lineEditVonFlug);
-
-        lineEditNachFlug = new QLineEdit(tabFlugbuchung);
-        lineEditNachFlug->setObjectName("lineEditNachFlug");
-
-        verticalLayout->addWidget(lineEditNachFlug);
-
-        doubleSpinBoxPreisFlug = new QDoubleSpinBox(tabFlugbuchung);
-        doubleSpinBoxPreisFlug->setObjectName("doubleSpinBoxPreisFlug");
-        doubleSpinBoxPreisFlug->setMaximum(9999.989999999999782);
-
-        verticalLayout->addWidget(doubleSpinBoxPreisFlug);
-
-
-        horizontalLayout_2->addLayout(verticalLayout);
-
-
-        formLayout->setLayout(0, QFormLayout::SpanningRole, horizontalLayout_2);
-
-        tabWidget->addTab(tabFlugbuchung, QString());
-        tabMietwagenreservierung = new QWidget();
-        tabMietwagenreservierung->setObjectName("tabMietwagenreservierung");
-        formLayout_3 = new QFormLayout(tabMietwagenreservierung);
-        formLayout_3->setObjectName("formLayout_3");
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setObjectName("horizontalLayout_4");
-        verticalLayout_6 = new QVBoxLayout();
-        verticalLayout_6->setObjectName("verticalLayout_6");
-        label_16 = new QLabel(tabMietwagenreservierung);
-        label_16->setObjectName("label_16");
-
-        verticalLayout_6->addWidget(label_16);
-
-        label_17 = new QLabel(tabMietwagenreservierung);
-        label_17->setObjectName("label_17");
-
-        verticalLayout_6->addWidget(label_17);
-
-        label_18 = new QLabel(tabMietwagenreservierung);
-        label_18->setObjectName("label_18");
-
-        verticalLayout_6->addWidget(label_18);
-
-        label_22 = new QLabel(tabMietwagenreservierung);
-        label_22->setObjectName("label_22");
-
-        verticalLayout_6->addWidget(label_22);
-
-        label_19 = new QLabel(tabMietwagenreservierung);
-        label_19->setObjectName("label_19");
-
-        verticalLayout_6->addWidget(label_19);
-
-        label_20 = new QLabel(tabMietwagenreservierung);
-        label_20->setObjectName("label_20");
-
-        verticalLayout_6->addWidget(label_20);
-
-        label_23 = new QLabel(tabMietwagenreservierung);
-        label_23->setObjectName("label_23");
-
-        verticalLayout_6->addWidget(label_23);
-
-        label_21 = new QLabel(tabMietwagenreservierung);
-        label_21->setObjectName("label_21");
-
-        verticalLayout_6->addWidget(label_21);
-
-
-        horizontalLayout_4->addLayout(verticalLayout_6);
-
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setObjectName("verticalLayout_3");
-        lineEditIdMietwagen = new QLineEdit(tabMietwagenreservierung);
-        lineEditIdMietwagen->setObjectName("lineEditIdMietwagen");
-
-        verticalLayout_3->addWidget(lineEditIdMietwagen);
-
-        dateEditVonMietwagen = new QDateEdit(tabMietwagenreservierung);
-        dateEditVonMietwagen->setObjectName("dateEditVonMietwagen");
-
-        verticalLayout_3->addWidget(dateEditVonMietwagen);
-
-        dateEditBisMietwagen = new QDateEdit(tabMietwagenreservierung);
-        dateEditBisMietwagen->setObjectName("dateEditBisMietwagen");
-
-        verticalLayout_3->addWidget(dateEditBisMietwagen);
-
-        lineEditFirmaMietwageb = new QLineEdit(tabMietwagenreservierung);
-        lineEditFirmaMietwageb->setObjectName("lineEditFirmaMietwageb");
-
-        verticalLayout_3->addWidget(lineEditFirmaMietwageb);
-
-        lineEditAbholortMietwagen = new QLineEdit(tabMietwagenreservierung);
-        lineEditAbholortMietwagen->setObjectName("lineEditAbholortMietwagen");
-
-        verticalLayout_3->addWidget(lineEditAbholortMietwagen);
-
-        lineEditAbgabeortMietwagen = new QLineEdit(tabMietwagenreservierung);
-        lineEditAbgabeortMietwagen->setObjectName("lineEditAbgabeortMietwagen");
-
-        verticalLayout_3->addWidget(lineEditAbgabeortMietwagen);
-
-        lineEditKlasseMietwagen = new QLineEdit(tabMietwagenreservierung);
-        lineEditKlasseMietwagen->setObjectName("lineEditKlasseMietwagen");
-
-        verticalLayout_3->addWidget(lineEditKlasseMietwagen);
-
-        doubleSpinBoxPreisMietwagen = new QDoubleSpinBox(tabMietwagenreservierung);
-        doubleSpinBoxPreisMietwagen->setObjectName("doubleSpinBoxPreisMietwagen");
-        doubleSpinBoxPreisMietwagen->setMaximum(9999.989999999999782);
-
-        verticalLayout_3->addWidget(doubleSpinBoxPreisMietwagen);
-
-
-        horizontalLayout_4->addLayout(verticalLayout_3);
-
-
-        formLayout_3->setLayout(0, QFormLayout::SpanningRole, horizontalLayout_4);
-
-        tabWidget->addTab(tabMietwagenreservierung, QString());
-        tabHotelbuchung = new QWidget();
-        tabHotelbuchung->setObjectName("tabHotelbuchung");
-        formLayout_2 = new QFormLayout(tabHotelbuchung);
-        formLayout_2->setObjectName("formLayout_2");
-        horizontalLayout_3 = new QHBoxLayout();
-        horizontalLayout_3->setObjectName("horizontalLayout_3");
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setObjectName("verticalLayout_5");
-        label_9 = new QLabel(tabHotelbuchung);
+        label_9 = new QLabel(tabFlugbuchung);
         label_9->setObjectName("label_9");
 
-        verticalLayout_5->addWidget(label_9);
+        formLayout_3->setWidget(3, QFormLayout::LabelRole, label_9);
 
+        lineEditFlugsitz = new QLineEdit(tabFlugbuchung);
+        lineEditFlugsitz->setObjectName("lineEditFlugsitz");
+
+        formLayout_3->setWidget(3, QFormLayout::FieldRole, lineEditFlugsitz);
+
+
+        verticalLayout_4->addLayout(formLayout_3);
+
+        tabWidgetBuchungTyp->addTab(tabFlugbuchung, QString());
+        tabHotelbuchung = new QWidget();
+        tabHotelbuchung->setObjectName("tabHotelbuchung");
+        horizontalLayout_6 = new QHBoxLayout(tabHotelbuchung);
+        horizontalLayout_6->setObjectName("horizontalLayout_6");
+        formLayout_4 = new QFormLayout();
+        formLayout_4->setObjectName("formLayout_4");
         label_10 = new QLabel(tabHotelbuchung);
         label_10->setObjectName("label_10");
 
-        verticalLayout_5->addWidget(label_10);
+        formLayout_4->setWidget(0, QFormLayout::LabelRole, label_10);
+
+        lineEditHotel = new QLineEdit(tabHotelbuchung);
+        lineEditHotel->setObjectName("lineEditHotel");
+
+        formLayout_4->setWidget(0, QFormLayout::FieldRole, lineEditHotel);
 
         label_11 = new QLabel(tabHotelbuchung);
         label_11->setObjectName("label_11");
 
-        verticalLayout_5->addWidget(label_11);
+        formLayout_4->setWidget(1, QFormLayout::LabelRole, label_11);
+
+        lineEditStadt = new QLineEdit(tabHotelbuchung);
+        lineEditStadt->setObjectName("lineEditStadt");
+
+        formLayout_4->setWidget(1, QFormLayout::FieldRole, lineEditStadt);
 
         label_12 = new QLabel(tabHotelbuchung);
         label_12->setObjectName("label_12");
 
-        verticalLayout_5->addWidget(label_12);
+        formLayout_4->setWidget(2, QFormLayout::LabelRole, label_12);
 
-        label_13 = new QLabel(tabHotelbuchung);
+        lineEditZimmertyp = new QLineEdit(tabHotelbuchung);
+        lineEditZimmertyp->setObjectName("lineEditZimmertyp");
+
+        formLayout_4->setWidget(2, QFormLayout::FieldRole, lineEditZimmertyp);
+
+
+        horizontalLayout_6->addLayout(formLayout_4);
+
+        tabWidgetBuchungTyp->addTab(tabHotelbuchung, QString());
+        tabMietwagenreservierung = new QWidget();
+        tabMietwagenreservierung->setObjectName("tabMietwagenreservierung");
+        horizontalLayout_7 = new QHBoxLayout(tabMietwagenreservierung);
+        horizontalLayout_7->setObjectName("horizontalLayout_7");
+        formLayout_5 = new QFormLayout();
+        formLayout_5->setObjectName("formLayout_5");
+        label_13 = new QLabel(tabMietwagenreservierung);
         label_13->setObjectName("label_13");
 
-        verticalLayout_5->addWidget(label_13);
+        formLayout_5->setWidget(0, QFormLayout::LabelRole, label_13);
 
-        label_15 = new QLabel(tabHotelbuchung);
-        label_15->setObjectName("label_15");
+        lineEditFirma = new QLineEdit(tabMietwagenreservierung);
+        lineEditFirma->setObjectName("lineEditFirma");
 
-        verticalLayout_5->addWidget(label_15);
+        formLayout_5->setWidget(0, QFormLayout::FieldRole, lineEditFirma);
 
-        label_14 = new QLabel(tabHotelbuchung);
+        label_14 = new QLabel(tabMietwagenreservierung);
         label_14->setObjectName("label_14");
 
-        verticalLayout_5->addWidget(label_14);
+        formLayout_5->setWidget(1, QFormLayout::LabelRole, label_14);
+
+        lineEditAbholort = new QLineEdit(tabMietwagenreservierung);
+        lineEditAbholort->setObjectName("lineEditAbholort");
+
+        formLayout_5->setWidget(1, QFormLayout::FieldRole, lineEditAbholort);
+
+        label_15 = new QLabel(tabMietwagenreservierung);
+        label_15->setObjectName("label_15");
+
+        formLayout_5->setWidget(2, QFormLayout::LabelRole, label_15);
+
+        lineEditAbgabeort = new QLineEdit(tabMietwagenreservierung);
+        lineEditAbgabeort->setObjectName("lineEditAbgabeort");
+
+        formLayout_5->setWidget(2, QFormLayout::FieldRole, lineEditAbgabeort);
+
+        label_16 = new QLabel(tabMietwagenreservierung);
+        label_16->setObjectName("label_16");
+
+        formLayout_5->setWidget(3, QFormLayout::LabelRole, label_16);
+
+        lineEditFahrzeugKlasse = new QLineEdit(tabMietwagenreservierung);
+        lineEditFahrzeugKlasse->setObjectName("lineEditFahrzeugKlasse");
+
+        formLayout_5->setWidget(3, QFormLayout::FieldRole, lineEditFahrzeugKlasse);
 
 
-        horizontalLayout_3->addLayout(verticalLayout_5);
+        horizontalLayout_7->addLayout(formLayout_5);
 
-        verticalLayout_2 = new QVBoxLayout();
-        verticalLayout_2->setObjectName("verticalLayout_2");
-        lineEditIdHotel = new QLineEdit(tabHotelbuchung);
-        lineEditIdHotel->setObjectName("lineEditIdHotel");
+        tabWidgetBuchungTyp->addTab(tabMietwagenreservierung, QString());
 
-        verticalLayout_2->addWidget(lineEditIdHotel);
-
-        dateAnkunftHotel = new QDateEdit(tabHotelbuchung);
-        dateAnkunftHotel->setObjectName("dateAnkunftHotel");
-
-        verticalLayout_2->addWidget(dateAnkunftHotel);
-
-        dateEditAbreiseHotel = new QDateEdit(tabHotelbuchung);
-        dateEditAbreiseHotel->setObjectName("dateEditAbreiseHotel");
-
-        verticalLayout_2->addWidget(dateEditAbreiseHotel);
-
-        lineEditHotelHotel = new QLineEdit(tabHotelbuchung);
-        lineEditHotelHotel->setObjectName("lineEditHotelHotel");
-
-        verticalLayout_2->addWidget(lineEditHotelHotel);
-
-        lineEditSTadtHotel = new QLineEdit(tabHotelbuchung);
-        lineEditSTadtHotel->setObjectName("lineEditSTadtHotel");
-
-        verticalLayout_2->addWidget(lineEditSTadtHotel);
-
-        lineEditZimmerHotel = new QLineEdit(tabHotelbuchung);
-        lineEditZimmerHotel->setObjectName("lineEditZimmerHotel");
-
-        verticalLayout_2->addWidget(lineEditZimmerHotel);
-
-        doubleSpinBoxPreisHotel = new QDoubleSpinBox(tabHotelbuchung);
-        doubleSpinBoxPreisHotel->setObjectName("doubleSpinBoxPreisHotel");
-        doubleSpinBoxPreisHotel->setMaximum(9999.989999999999782);
-
-        verticalLayout_2->addWidget(doubleSpinBoxPreisHotel);
+        verticalLayout_3->addWidget(tabWidgetBuchungTyp);
 
 
-        horizontalLayout_3->addLayout(verticalLayout_2);
+        verticalLayout_5->addLayout(verticalLayout_3);
 
 
-        formLayout_2->setLayout(0, QFormLayout::SpanningRole, horizontalLayout_3);
+        horizontalLayout_4->addWidget(groupBoxBuchungdetails);
 
-        tabWidget->addTab(tabHotelbuchung, QString());
-        splitter->addWidget(tabWidget);
 
-        verticalLayout_8->addWidget(splitter);
+        horizontalLayout_5->addLayout(horizontalLayout_4);
 
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -441,20 +451,21 @@ public:
         MainWindow->setStatusBar(statusbar);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 800, 17));
+        menubar->setGeometry(QRect(0, 0, 764, 17));
         menuDatei = new QMenu(menubar);
         menuDatei->setObjectName("menuDatei");
-        menuBuchung = new QMenu(menubar);
-        menuBuchung->setObjectName("menuBuchung");
+        menuKunde = new QMenu(menubar);
+        menuKunde->setObjectName("menuKunde");
         MainWindow->setMenuBar(menubar);
 
         menubar->addAction(menuDatei->menuAction());
-        menubar->addAction(menuBuchung->menuAction());
+        menubar->addAction(menuKunde->menuAction());
         menuDatei->addAction(actionEinlesen_2);
+        menuKunde->addAction(actionSuchen);
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidgetBuchungTyp->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -465,35 +476,35 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         actionEinlesen->setText(QCoreApplication::translate("MainWindow", "Einlesen", nullptr));
         actionEinlesen_2->setText(QCoreApplication::translate("MainWindow", "Einlesen", nullptr));
-        groupBoxBuchungen->setTitle(QString());
-        label->setText(QCoreApplication::translate("MainWindow", "Id", nullptr));
-        label_2->setText(QCoreApplication::translate("MainWindow", "Abflugdatum", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "Ankuftsdatum", nullptr));
-        label_8->setText(QCoreApplication::translate("MainWindow", "Fluglinie", nullptr));
-        label_7->setText(QCoreApplication::translate("MainWindow", "Klasse", nullptr));
-        label_4->setText(QCoreApplication::translate("MainWindow", "Von", nullptr));
-        label_5->setText(QCoreApplication::translate("MainWindow", "Nach", nullptr));
-        label_6->setText(QCoreApplication::translate("MainWindow", "Preis", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tabFlugbuchung), QCoreApplication::translate("MainWindow", "Flugbuchung", nullptr));
-        label_16->setText(QCoreApplication::translate("MainWindow", "Id", nullptr));
-        label_17->setText(QCoreApplication::translate("MainWindow", "Von", nullptr));
-        label_18->setText(QCoreApplication::translate("MainWindow", "Bis", nullptr));
-        label_22->setText(QCoreApplication::translate("MainWindow", "Firma", nullptr));
-        label_19->setText(QCoreApplication::translate("MainWindow", "Abholort", nullptr));
-        label_20->setText(QCoreApplication::translate("MainWindow", "Abgabeort", nullptr));
-        label_23->setText(QCoreApplication::translate("MainWindow", "Klasse", nullptr));
-        label_21->setText(QCoreApplication::translate("MainWindow", "Preis", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tabMietwagenreservierung), QCoreApplication::translate("MainWindow", "Mietwagenreservierung", nullptr));
-        label_9->setText(QCoreApplication::translate("MainWindow", "Id", nullptr));
-        label_10->setText(QCoreApplication::translate("MainWindow", "Ankunftsdatum", nullptr));
-        label_11->setText(QCoreApplication::translate("MainWindow", "Abreisedatum", nullptr));
-        label_12->setText(QCoreApplication::translate("MainWindow", "Hotel", nullptr));
-        label_13->setText(QCoreApplication::translate("MainWindow", "Stadt", nullptr));
-        label_15->setText(QCoreApplication::translate("MainWindow", "Zimmer", nullptr));
-        label_14->setText(QCoreApplication::translate("MainWindow", "Preis", nullptr));
-        tabWidget->setTabText(tabWidget->indexOf(tabHotelbuchung), QCoreApplication::translate("MainWindow", "Hotelbuchung", nullptr));
+        actionSuchen->setText(QCoreApplication::translate("MainWindow", "Suchen", nullptr));
+        groupBoxKunde->setTitle(QCoreApplication::translate("MainWindow", "Kund*in", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Name", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Reisen", nullptr));
+        groupBoxReise->setTitle(QCoreApplication::translate("MainWindow", "Reise", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "Reise-ID", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "Buchungen", nullptr));
+        groupBoxBuchungdetails->setTitle(QCoreApplication::translate("MainWindow", "Buchungsdetails", nullptr));
+        label_17->setText(QCoreApplication::translate("MainWindow", "Buchungs-ID", nullptr));
+        label_18->setText(QCoreApplication::translate("MainWindow", "Start Datum", nullptr));
+        label_19->setText(QCoreApplication::translate("MainWindow", "End Datum", nullptr));
+        label_20->setText(QCoreApplication::translate("MainWindow", "Preis", nullptr));
+        label_6->setText(QCoreApplication::translate("MainWindow", "Fluggesellschaft", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "Von", nullptr));
+        label_8->setText(QCoreApplication::translate("MainWindow", "Bis", nullptr));
+        label_9->setText(QCoreApplication::translate("MainWindow", "Buchungs Klasse", nullptr));
+        tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabFlugbuchung), QCoreApplication::translate("MainWindow", "Flugbuchung", nullptr));
+        label_10->setText(QCoreApplication::translate("MainWindow", "Hotelname", nullptr));
+        label_11->setText(QCoreApplication::translate("MainWindow", "Stadt", nullptr));
+        label_12->setText(QCoreApplication::translate("MainWindow", "Zimmertyp", nullptr));
+        tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabHotelbuchung), QCoreApplication::translate("MainWindow", "Hotelbuchung", nullptr));
+        label_13->setText(QCoreApplication::translate("MainWindow", "Firma", nullptr));
+        label_14->setText(QCoreApplication::translate("MainWindow", "Abholort", nullptr));
+        label_15->setText(QCoreApplication::translate("MainWindow", "Abgabeort", nullptr));
+        label_16->setText(QCoreApplication::translate("MainWindow", "Fahrzeug Klasse", nullptr));
+        tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabMietwagenreservierung), QCoreApplication::translate("MainWindow", "Mietwagenreservierung", nullptr));
         menuDatei->setTitle(QCoreApplication::translate("MainWindow", "Datei", nullptr));
-        menuBuchung->setTitle(QCoreApplication::translate("MainWindow", "Buchung", nullptr));
+        menuKunde->setTitle(QCoreApplication::translate("MainWindow", "Kund*innen", nullptr));
     } // retranslateUi
 
 };

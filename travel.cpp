@@ -11,6 +11,11 @@ long Travel::getCustomerId() const
     return customerId;
 }
 
+std::vector<Booking *> Travel::getTravelBookings() const
+{
+    return travelBookings;
+}
+
 Travel::Travel(long ID, long KundeId)
 {
     id = ID;

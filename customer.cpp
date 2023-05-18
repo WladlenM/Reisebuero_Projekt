@@ -11,6 +11,11 @@ std::string Customer::getName() const
     return name;
 }
 
+std::vector<Travel *> Customer::getTravelList() const
+{
+    return travelList;
+}
+
 Customer::Customer(long customerID1,std::string kundenName1)
 {
     id = customerID1;

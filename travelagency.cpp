@@ -50,6 +50,16 @@ void TravelAgency::clearData()
     allCustomers.clear();
 }
 
+std::vector<Travel *> TravelAgency::getAllTravels() const
+{
+    return allTravels;
+}
+
+std::vector<Customer *> TravelAgency::getAllCustomers() const
+{
+    return allCustomers;
+}
+
 TravelAgency::~TravelAgency()
 {
     for(int i = 0;i<(int)bookings.size();i++)

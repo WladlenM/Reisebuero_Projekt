@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/new/Icon">
+        <file>airplane-png.png</file>
+        <file>car_vehicle_transport_icon_144665.png</file>
+        <file>Hotel-png.png</file>
+    </qresource>
+</RCC>

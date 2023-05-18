@@ -20,6 +20,7 @@ public:
     void addBooking(Booking* booking);
     long getId() const;
     long getCustomerId() const;
+    std::vector<Booking *> getTravelBookings() const;
 };
 
 #endif // TRAVEL_H
