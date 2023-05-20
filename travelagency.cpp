@@ -60,6 +60,11 @@ std::vector<Customer *> TravelAgency::getAllCustomers() const
     return allCustomers;
 }
 
+void TravelAgency::setBookings(const std::vector<Booking *> &newBookings)
+{
+    bookings = newBookings;
+}
+
 TravelAgency::~TravelAgency()
 {
     for(int i = 0;i<(int)bookings.size();i++)

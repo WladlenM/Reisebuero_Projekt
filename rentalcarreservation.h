@@ -15,6 +15,7 @@ public:
     ~RentalCarReservation();
     std::string showDetails();
     std::vector<std::string> myType();
+    void changeType(int index, std::string inhalt);
 };
 
 #endif // RENTALCARRESERVATION_H

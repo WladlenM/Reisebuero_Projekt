@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
-    <height>559</height>
+    <width>823</width>
+    <height>579</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_5">
+   <layout class="QHBoxLayout" name="horizontalLayout_8">
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
@@ -86,6 +86,9 @@
                </property>
                <property name="frameShadow">
                 <enum>QFrame::Sunken</enum>
+               </property>
+               <property name="sizeAdjustPolicy">
+                <enum>QAbstractScrollArea::AdjustIgnored</enum>
                </property>
                <property name="horizontalScrollMode">
                 <enum>QAbstractItemView::ScrollPerItem</enum>
@@ -168,7 +171,11 @@
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLineEdit" name="lineEditBuchungId"/>
+              <widget class="QLineEdit" name="lineEditBuchungId">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
              </item>
              <item row="1" column="0">
               <widget class="QLabel" name="label_18">
@@ -198,14 +205,18 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QDoubleSpinBox" name="doubleSpinBoxPreis"/>
+              <widget class="QDoubleSpinBox" name="doubleSpinBoxPreis">
+               <property name="maximum">
+                <double>99999.990000000005239</double>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
            <item>
             <widget class="QTabWidget" name="tabWidgetBuchungTyp">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="tabFlugbuchung">
               <attribute name="title">
@@ -352,6 +363,30 @@
              </widget>
             </widget>
            </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QPushButton" name="pushButtonSave">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Speichern</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonCancel">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>Abbrechen</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
           </layout>
          </item>
         </layout>
@@ -367,7 +402,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>764</width>
+     <width>823</width>
      <height>17</height>
     </rect>
    </property>

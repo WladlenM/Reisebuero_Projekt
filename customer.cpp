@@ -22,6 +22,15 @@ Customer::Customer(long customerID1,std::string kundenName1)
     name = kundenName1;
 }
 
+Customer::~Customer()
+{
+    for(int i = 0;i<(int)travelList.size();i++)
+    {
+        delete travelList[i];
+    }
+    travelList.clear();
+}
+
 void Customer::addTravel(Travel *travel)
 {
     for(Travel* existingTravel : travelList)

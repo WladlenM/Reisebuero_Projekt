@@ -23,6 +23,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTableWidget>
@@ -38,7 +39,7 @@ public:
     QAction *actionEinlesen_2;
     QAction *actionSuchen;
     QWidget *centralwidget;
-    QHBoxLayout *horizontalLayout_5;
+    QHBoxLayout *horizontalLayout_8;
     QHBoxLayout *horizontalLayout_4;
     QGroupBox *groupBoxKunde;
     QVBoxLayout *verticalLayout_7;
@@ -105,6 +106,9 @@ public:
     QLineEdit *lineEditAbgabeort;
     QLabel *label_16;
     QLineEdit *lineEditFahrzeugKlasse;
+    QHBoxLayout *horizontalLayout_5;
+    QPushButton *pushButtonSave;
+    QPushButton *pushButtonCancel;
     QStatusBar *statusbar;
     QMenuBar *menubar;
     QMenu *menuDatei;
@@ -114,7 +118,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
-        MainWindow->resize(764, 559);
+        MainWindow->resize(823, 579);
         actionEinlesen = new QAction(MainWindow);
         actionEinlesen->setObjectName("actionEinlesen");
         actionEinlesen_2 = new QAction(MainWindow);
@@ -123,8 +127,8 @@ public:
         actionSuchen->setObjectName("actionSuchen");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        horizontalLayout_5 = new QHBoxLayout(centralwidget);
-        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        horizontalLayout_8 = new QHBoxLayout(centralwidget);
+        horizontalLayout_8->setObjectName("horizontalLayout_8");
         horizontalLayout_4 = new QHBoxLayout();
         horizontalLayout_4->setObjectName("horizontalLayout_4");
         groupBoxKunde = new QGroupBox(centralwidget);
@@ -182,6 +186,7 @@ public:
         tableWidgetReisen->setSizePolicy(sizePolicy);
         tableWidgetReisen->setFrameShape(QFrame::StyledPanel);
         tableWidgetReisen->setFrameShadow(QFrame::Sunken);
+        tableWidgetReisen->setSizeAdjustPolicy(QAbstractScrollArea::AdjustIgnored);
         tableWidgetReisen->setHorizontalScrollMode(QAbstractItemView::ScrollPerItem);
         tableWidgetReisen->setGridStyle(Qt::SolidLine);
         tableWidgetReisen->horizontalHeader()->setCascadingSectionResizes(false);
@@ -255,6 +260,7 @@ public:
 
         lineEditBuchungId = new QLineEdit(groupBoxBuchungdetails);
         lineEditBuchungId->setObjectName("lineEditBuchungId");
+        lineEditBuchungId->setEnabled(false);
 
         formLayout_6->setWidget(0, QFormLayout::FieldRole, lineEditBuchungId);
 
@@ -285,6 +291,7 @@ public:
 
         doubleSpinBoxPreis = new QDoubleSpinBox(groupBoxBuchungdetails);
         doubleSpinBoxPreis->setObjectName("doubleSpinBoxPreis");
+        doubleSpinBoxPreis->setMaximum(99999.990000000005239);
 
         formLayout_6->setWidget(3, QFormLayout::FieldRole, doubleSpinBoxPreis);
 
@@ -436,6 +443,23 @@ public:
 
         verticalLayout_3->addWidget(tabWidgetBuchungTyp);
 
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName("horizontalLayout_5");
+        pushButtonSave = new QPushButton(groupBoxBuchungdetails);
+        pushButtonSave->setObjectName("pushButtonSave");
+        pushButtonSave->setEnabled(false);
+
+        horizontalLayout_5->addWidget(pushButtonSave);
+
+        pushButtonCancel = new QPushButton(groupBoxBuchungdetails);
+        pushButtonCancel->setObjectName("pushButtonCancel");
+        pushButtonCancel->setEnabled(false);
+
+        horizontalLayout_5->addWidget(pushButtonCancel);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_5);
+
 
         verticalLayout_5->addLayout(verticalLayout_3);
 
@@ -443,7 +467,7 @@ public:
         horizontalLayout_4->addWidget(groupBoxBuchungdetails);
 
 
-        horizontalLayout_5->addLayout(horizontalLayout_4);
+        horizontalLayout_8->addLayout(horizontalLayout_4);
 
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -451,7 +475,7 @@ public:
         MainWindow->setStatusBar(statusbar);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 764, 17));
+        menubar->setGeometry(QRect(0, 0, 823, 17));
         menuDatei = new QMenu(menubar);
         menuDatei->setObjectName("menuDatei");
         menuKunde = new QMenu(menubar);
@@ -465,7 +489,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidgetBuchungTyp->setCurrentIndex(0);
+        tabWidgetBuchungTyp->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -503,6 +527,8 @@ public:
         label_15->setText(QCoreApplication::translate("MainWindow", "Abgabeort", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "Fahrzeug Klasse", nullptr));
         tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabMietwagenreservierung), QCoreApplication::translate("MainWindow", "Mietwagenreservierung", nullptr));
+        pushButtonSave->setText(QCoreApplication::translate("MainWindow", "Speichern", nullptr));
+        pushButtonCancel->setText(QCoreApplication::translate("MainWindow", "Abbrechen", nullptr));
         menuDatei->setTitle(QCoreApplication::translate("MainWindow", "Datei", nullptr));
         menuKunde->setTitle(QCoreApplication::translate("MainWindow", "Kund*innen", nullptr));
     } // retranslateUi

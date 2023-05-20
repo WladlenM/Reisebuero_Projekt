@@ -24,7 +24,12 @@ public:
     std::string getFromDate() const;
     std::string getToDate() const;
     virtual std::vector<std::string> myType()=0;
+    virtual void changeType(int index, std::string inhalt)=0;
+    //virtual void changeType()=0;
     long getTravelId() const;
+    void setPrice(double newPrice);
+    void setFromDate(const std::string &newFromDate);
+    void setToDate(const std::string &newToDate);
 };
 
 #endif // BOOKING_H

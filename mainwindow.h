@@ -39,6 +39,12 @@ private slots:
 
     void on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *item);
 
+    void on_pushButtonSave_clicked();
+
+    void enableButtons();
+
+    void on_pushButtonCancel_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

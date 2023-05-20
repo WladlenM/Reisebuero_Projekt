@@ -70,3 +70,19 @@ std::vector<std::string> HotelBooking::myType()
     return ruckgabe;
 }
 
+void HotelBooking::changeType(int index, std::string inhalt)
+{
+    if(index==0)
+    {
+        hotel=inhalt;
+    }
+    else if(index==1)
+    {
+        town=inhalt;
+    }
+    else if(index==2)
+    {
+        roomType=inhalt;
+    }
+}
+

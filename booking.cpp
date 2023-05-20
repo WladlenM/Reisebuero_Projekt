@@ -26,6 +26,21 @@ long Booking::getTravelId() const
     return travelId;
 }
 
+void Booking::setPrice(double newPrice)
+{
+    price = newPrice;
+}
+
+void Booking::setFromDate(const std::string &newFromDate)
+{
+    fromDate = newFromDate;
+}
+
+void Booking::setToDate(const std::string &newToDate)
+{
+    toDate = newToDate;
+}
+
 Booking::Booking()
 {
 

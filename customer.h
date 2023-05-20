@@ -14,6 +14,7 @@ private:
     std::vector<Travel*> travelList;
 public:
     Customer(long customerID1,std::string kundenName1);
+    ~Customer();
     void addTravel(Travel* travel);
     long getId() const;
     std::string getName() const;

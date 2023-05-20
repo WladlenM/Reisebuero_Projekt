@@ -31,6 +31,7 @@ public:
 
     std::vector<Travel *> getAllTravels() const;
     std::vector<Customer *> getAllCustomers() const;
+    void setBookings(const std::vector<Booking *> &newBookings);
 };
 
 #endif // TRAVELAGENCY_H

@@ -1,6 +1,21 @@
 #include "flightbooking.h"
 
 
+void FlightBooking::setFromDestination(const std::string &newFromDestination)
+{
+    fromDestination = newFromDestination;
+}
+
+void FlightBooking::setToDestination(const std::string &newToDestination)
+{
+    toDestination = newToDestination;
+}
+
+void FlightBooking::setAirline(const std::string &newAirline)
+{
+    airline = newAirline;
+}
+
 FlightBooking::FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie, std::string bookingKlasse,std::string endDate, long reiseId)
 {
     id = ID;
@@ -71,3 +86,32 @@ std::vector<std::string> FlightBooking::myType()
     ruckgabe.push_back(KlasseBooking);
     return ruckgabe;
 }
+
+void FlightBooking::changeType(int index, std::string inhalt)
+{
+    if(index==0)
+    {
+        fromDestination=inhalt;
+    }
+    else if(index==1)
+    {
+        toDestination=inhalt;
+    }
+    else if(index==2)
+    {
+        airline=inhalt;
+    }
+    else if(index==3)
+    {
+        bookingClass=inhalt;
+    }
+}
+
+/*void FlightBooking::changeType(std::string newFromDestination, std::string newToDestination, std::string newAirline, std::string newBookingClass)
+{
+    fromDestination = newFromDestination;
+    toDestination = newToDestination;
+    airline = newAirline;
+    bookingClass = newBookingClass;
+
+}*/

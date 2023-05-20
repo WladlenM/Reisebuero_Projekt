@@ -35,3 +35,23 @@ std::vector<std::string> RentalCarReservation::myType()
     ruckgabe.push_back(vehicleClass);
     return ruckgabe;
 }
+
+void RentalCarReservation::changeType(int index, std::string inhalt)
+{
+    if(index==0)
+    {
+        pickupLocation=inhalt;
+    }
+    else if(index==1)
+    {
+        returnLocation=inhalt;
+    }
+    else if(index==2)
+    {
+        company=inhalt;
+    }
+    else if(index==3)
+    {
+        vehicleClass=inhalt;
+    }
+}
