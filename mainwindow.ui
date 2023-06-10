@@ -223,7 +223,7 @@
            <item>
             <widget class="QTabWidget" name="tabWidgetBuchungTyp">
              <property name="currentIndex">
-              <number>1</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="tabFlugbuchung">
               <attribute name="title">
@@ -272,6 +272,20 @@
                  <item row="3" column="1">
                   <widget class="QLineEdit" name="lineEditFlugsitz"/>
                  </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_21">
+                   <property name="text">
+                    <string>Karte</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLabel" name="labelKarteUrl">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </item>
               </layout>
@@ -312,6 +326,20 @@
                  </item>
                  <item row="2" column="1">
                   <widget class="QLineEdit" name="lineEditZimmertyp"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="label_22">
+                   <property name="text">
+                    <string>Karte</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLabel" name="labelKarteUrlHotel">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -363,6 +391,20 @@
                  </item>
                  <item row="3" column="1">
                   <widget class="QLineEdit" name="lineEditFahrzeugKlasse"/>
+                 </item>
+                 <item row="4" column="0">
+                  <widget class="QLabel" name="label_23">
+                   <property name="text">
+                    <string>Karte</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="4" column="1">
+                  <widget class="QLabel" name="labelKarteUrlAuto">
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>

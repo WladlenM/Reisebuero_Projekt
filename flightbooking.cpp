@@ -88,6 +88,10 @@ std::vector<std::string> FlightBooking::myType()
     ruckgabe.push_back(toDestination);
     ruckgabe.push_back(airline);
     ruckgabe.push_back(KlasseBooking);
+    ruckgabe.push_back(fromDestLatitude);
+    ruckgabe.push_back(fromDestLongitude);
+    ruckgabe.push_back(toDestLatitude);
+    ruckgabe.push_back(toDestLongitude);
     return ruckgabe;
 }
 

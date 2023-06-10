@@ -13,6 +13,7 @@
 #include <QInputDialog>
 #include <json.hpp>
 #include <fstream>
+#include <QDesktopServices>
 
 //using namespace nlohmann;
 
@@ -40,6 +41,7 @@ MainWindow::MainWindow(TravelAgency travelAgentur, QWidget *parent)
     connect(ui->dateEditEndDatum,SIGNAL(dateChanged(QDate)),this,SLOT(enableButtons()));
     connect(ui->dateEditStartDatum,SIGNAL(dateChanged(QDate)),this,SLOT(enableButtons()));
     connect(ui->doubleSpinBoxPreis,SIGNAL(textChanged(QString)),this,SLOT(enableButtons()));
+    connect(ui->labelKarteUrl,&QLabel::linkActivated,[](const QString &link){QDesktopServices::openUrl(QUrl(link));});
 
 }
 
@@ -479,6 +481,7 @@ void MainWindow::on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *ite
     if(pixmapCompare.toImage()==pixmapPlane.toImage())
     {
         ui->tabWidgetBuchungTyp->setCurrentIndex(0);
+        QString urlMapTmp = "https://jenningsanderson.com/geo/?geojson=";
 
         QString airplane = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[2]);
         ui->lineEditFlugzeug->setText(airplane);
@@ -491,10 +494,26 @@ void MainWindow::on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *ite
 
         QString flugklasse = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[3]);
         ui->lineEditFlugsitz->setText(flugklasse);
+
+        QString fromDestLoc = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[4]);
+        QString fromDestLangt = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[5]);
+        QString toDestLoc = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[6]);
+        QString toDestLangt = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[7]);
+
+        QString urlMaptmp2 ="{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\", \"coordinates\":[[" +  fromDestLangt + "," + fromDestLoc + "\],\["+toDestLangt + "," +toDestLoc+"\]\]\},\"properties\":{\"Von\":\""+fromDest+"\",\"Bis\":\""+toDest+"\"}}";
+
+        QString urlMap3 = QUrl::toPercentEncoding(urlMaptmp2);
+
+        QString urlMap = urlMapTmp + urlMap3;
+        ui->labelKarteUrl->setOpenExternalLinks(true);
+
+        ui->labelKarteUrl->setText(QString("<a href=\""+urlMap+"\">"+urlMap+"</a>"));
     }
     else if(pixmapCompare.toImage()==pixmapHotel.toImage())
     {
         ui->tabWidgetBuchungTyp->setCurrentIndex(1);
+
+        QString urlMapTmp = "https://jenningsanderson.com/geo/?geojson=";
 
         QString hotel = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[0]);
         ui->lineEditHotel->setText(hotel);
@@ -504,10 +523,23 @@ void MainWindow::on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *ite
 
         QString roomType = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[2]);
         ui->lineEditZimmertyp->setText(roomType);
+
+        QString hotelDest = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[3]);
+        QString hotelLangt = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[4]);
+
+        QString urlMaptmp2 ="{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\", \"coordinates\":[" +  hotelLangt + "," + hotelDest + "\]\},\"properties\":{\"hotel\":\""+hotel+"\"}}";
+
+        QString urlMap3 = QUrl::toPercentEncoding(urlMaptmp2);
+
+        QString urlMap = urlMapTmp + urlMap3;
+        ui->labelKarteUrlHotel->setOpenExternalLinks(true);
+
+        ui->labelKarteUrlHotel->setText(QString("<a href=\""+urlMap+"\">"+urlMap+"</a>"));
     }
     else if(pixmapCompare.toImage()==pixmapAuto.toImage())
     {
         ui->tabWidgetBuchungTyp->setCurrentIndex(2);
+        QString urlMapTmp = "https://jenningsanderson.com/geo/?geojson=";
 
         QString company = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[2]);
         ui->lineEditFirma->setText(company);
@@ -520,6 +552,28 @@ void MainWindow::on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *ite
 
         QString vehicleClass = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[3]);
         ui->lineEditFahrzeugKlasse->setText(vehicleClass);
+
+        QString pickupLat = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[4]);
+        QString pickupLongt = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[5]);
+        QString returnLat = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[6]);
+        QString returnLongt = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[7]);
+        QString urlMaptmp2;
+
+        if(!pickupLoc.compare(returnLoc))
+        {
+            urlMaptmp2 ="{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\", \"coordinates\":[" +  pickupLongt + "," + pickupLat + "\]\},\"properties\":{\"Abhol-Rueckgabestation\":\""+pickupLoc+"\",\"Firma\":\""+company+"\"}}";
+        }
+        else
+        {
+            urlMaptmp2 = "{\"type\":\"Feature\",\"geometry\":{\"type\":\"LineString\", \"coordinates\":[[" +  pickupLongt + "," + pickupLat + "\],\["+returnLongt + "," +returnLat+"\]\]\},\"properties\":{\"Abholstation\":\""+pickupLoc+"\",\"Rueckgabestation\":\""+returnLoc+"\",\"Firma\":\""+company+"\"}}";
+
+        }
+        QString urlMap3 = QUrl::toPercentEncoding(urlMaptmp2);
+
+        QString urlMap = urlMapTmp + urlMap3;
+        ui->labelKarteUrlAuto->setOpenExternalLinks(true);
+
+        ui->labelKarteUrlAuto->setText(QString("<a href=\""+urlMap+"\">"+urlMap+"</a>"));
     }
 
     ui->groupBoxBuchungdetails->show();

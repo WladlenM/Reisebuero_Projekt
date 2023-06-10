@@ -37,6 +37,10 @@ std::vector<std::string> RentalCarReservation::myType()
     ruckgabe.push_back(returnLocation);
     ruckgabe.push_back(company);
     ruckgabe.push_back(vehicleClass);
+    ruckgabe.push_back(pickupLatitude);
+    ruckgabe.push_back(pickupLongitude);
+    ruckgabe.push_back(returnLatitude);
+    ruckgabe.push_back(returnLongitude);
     return ruckgabe;
 }
 

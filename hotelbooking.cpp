@@ -69,6 +69,8 @@ std::vector<std::string> HotelBooking::myType()
     ruckgabe.push_back(hotel);
     ruckgabe.push_back(town);
     ruckgabe.push_back(RaumTypBedeutung);
+    ruckgabe.push_back(hotelLatitude);
+    ruckgabe.push_back(hotelLongitude);
     return ruckgabe;
 }
 

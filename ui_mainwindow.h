@@ -86,6 +86,8 @@ public:
     QLineEdit *lineEditbisFlug;
     QLabel *label_9;
     QLineEdit *lineEditFlugsitz;
+    QLabel *label_21;
+    QLabel *labelKarteUrl;
     QWidget *tabHotelbuchung;
     QHBoxLayout *horizontalLayout_6;
     QFormLayout *formLayout_4;
@@ -95,6 +97,8 @@ public:
     QLineEdit *lineEditStadt;
     QLabel *label_12;
     QLineEdit *lineEditZimmertyp;
+    QLabel *label_22;
+    QLabel *labelKarteUrlHotel;
     QWidget *tabMietwagenreservierung;
     QHBoxLayout *horizontalLayout_7;
     QFormLayout *formLayout_5;
@@ -106,6 +110,8 @@ public:
     QLineEdit *lineEditAbgabeort;
     QLabel *label_16;
     QLineEdit *lineEditFahrzeugKlasse;
+    QLabel *label_23;
+    QLabel *labelKarteUrlAuto;
     QHBoxLayout *horizontalLayout_5;
     QPushButton *pushButtonSave;
     QPushButton *pushButtonCancel;
@@ -348,6 +354,16 @@ public:
 
         formLayout_3->setWidget(3, QFormLayout::FieldRole, lineEditFlugsitz);
 
+        label_21 = new QLabel(tabFlugbuchung);
+        label_21->setObjectName("label_21");
+
+        formLayout_3->setWidget(4, QFormLayout::LabelRole, label_21);
+
+        labelKarteUrl = new QLabel(tabFlugbuchung);
+        labelKarteUrl->setObjectName("labelKarteUrl");
+
+        formLayout_3->setWidget(4, QFormLayout::FieldRole, labelKarteUrl);
+
 
         verticalLayout_4->addLayout(formLayout_3);
 
@@ -387,6 +403,16 @@ public:
         lineEditZimmertyp->setObjectName("lineEditZimmertyp");
 
         formLayout_4->setWidget(2, QFormLayout::FieldRole, lineEditZimmertyp);
+
+        label_22 = new QLabel(tabHotelbuchung);
+        label_22->setObjectName("label_22");
+
+        formLayout_4->setWidget(3, QFormLayout::LabelRole, label_22);
+
+        labelKarteUrlHotel = new QLabel(tabHotelbuchung);
+        labelKarteUrlHotel->setObjectName("labelKarteUrlHotel");
+
+        formLayout_4->setWidget(3, QFormLayout::FieldRole, labelKarteUrlHotel);
 
 
         horizontalLayout_6->addLayout(formLayout_4);
@@ -437,6 +463,16 @@ public:
         lineEditFahrzeugKlasse->setObjectName("lineEditFahrzeugKlasse");
 
         formLayout_5->setWidget(3, QFormLayout::FieldRole, lineEditFahrzeugKlasse);
+
+        label_23 = new QLabel(tabMietwagenreservierung);
+        label_23->setObjectName("label_23");
+
+        formLayout_5->setWidget(4, QFormLayout::LabelRole, label_23);
+
+        labelKarteUrlAuto = new QLabel(tabMietwagenreservierung);
+        labelKarteUrlAuto->setObjectName("labelKarteUrlAuto");
+
+        formLayout_5->setWidget(4, QFormLayout::FieldRole, labelKarteUrlAuto);
 
 
         horizontalLayout_7->addLayout(formLayout_5);
@@ -491,7 +527,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidgetBuchungTyp->setCurrentIndex(1);
+        tabWidgetBuchungTyp->setCurrentIndex(2);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -519,15 +555,21 @@ public:
         label_7->setText(QCoreApplication::translate("MainWindow", "Von", nullptr));
         label_8->setText(QCoreApplication::translate("MainWindow", "Bis", nullptr));
         label_9->setText(QCoreApplication::translate("MainWindow", "Buchungs Klasse", nullptr));
+        label_21->setText(QCoreApplication::translate("MainWindow", "Karte", nullptr));
+        labelKarteUrl->setText(QString());
         tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabFlugbuchung), QCoreApplication::translate("MainWindow", "Flugbuchung", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "Hotelname", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Stadt", nullptr));
         label_12->setText(QCoreApplication::translate("MainWindow", "Zimmertyp", nullptr));
+        label_22->setText(QCoreApplication::translate("MainWindow", "Karte", nullptr));
+        labelKarteUrlHotel->setText(QString());
         tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabHotelbuchung), QCoreApplication::translate("MainWindow", "Hotelbuchung", nullptr));
         label_13->setText(QCoreApplication::translate("MainWindow", "Firma", nullptr));
         label_14->setText(QCoreApplication::translate("MainWindow", "Abholort", nullptr));
         label_15->setText(QCoreApplication::translate("MainWindow", "Abgabeort", nullptr));
         label_16->setText(QCoreApplication::translate("MainWindow", "Fahrzeug Klasse", nullptr));
+        label_23->setText(QCoreApplication::translate("MainWindow", "Karte", nullptr));
+        labelKarteUrlAuto->setText(QString());
         tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabMietwagenreservierung), QCoreApplication::translate("MainWindow", "Mietwagenreservierung", nullptr));
         pushButtonSave->setText(QCoreApplication::translate("MainWindow", "Speichern", nullptr));
         pushButtonCancel->setText(QCoreApplication::translate("MainWindow", "Abbrechen", nullptr));
