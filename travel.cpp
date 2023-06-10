@@ -11,12 +11,12 @@ long Travel::getCustomerId() const
     return customerId;
 }
 
-std::vector<Booking *> Travel::getTravelBookings() const
+std::vector<std::shared_ptr<Booking>> Travel::getTravelBookings() const
 {
     return travelBookings;
 }
 
-void Travel::setTravelBookings(const std::vector<Booking *> &newTravelBookings)
+void Travel::setTravelBookings(const std::vector<std::shared_ptr<Booking>> &newTravelBookings)
 {
     travelBookings = newTravelBookings;
 }
@@ -29,16 +29,16 @@ Travel::Travel(long ID, long KundeId)
 
 Travel::~Travel()
 {
-    for(int i = 0;i<(int)travelBookings.size();i++)
+    /*for(int i = 0;i<(int)travelBookings.size();i++)
     {
         delete travelBookings[i];
-    }
+    }*/
     travelBookings.clear();
 }
 
-void Travel::addBooking(Booking *booking)
+void Travel::addBooking(std::shared_ptr<Booking> booking)
 {
-    for(Booking* existingBooking : travelBookings)
+    for(std::shared_ptr<Booking> existingBooking : travelBookings)
     {
         if(existingBooking->getId()==booking->getId())
         {

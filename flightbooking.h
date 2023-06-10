@@ -9,11 +9,15 @@ class FlightBooking : public Booking
 {
 private:
     std::string fromDestination;
+    std::string fromDestLatitude;
+    std::string fromDestLongitude;
     std::string toDestination;
+    std::string toDestLatitude;
+    std::string toDestLongitude;
     std::string airline;
     std::string bookingClass;
 public:
-    FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie,std::string bookingKlasse,std::string toDate, long reiseId);
+    FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie,std::string bookingKlasse,std::string toDate, long reiseId, std::string vonDestLoc, std::string vonDestLongt, std::string zuDestLoc, std::string zuDestLongt);
     ~FlightBooking();
     std::string showDetails();
     std::vector<std::string> myType();

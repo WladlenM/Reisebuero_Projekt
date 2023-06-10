@@ -11,14 +11,14 @@ class Customer
 private:
     long id;
     std::string name;
-    std::vector<Travel*> travelList;
+    std::vector<std::shared_ptr<Travel>> travelList;
 public:
     Customer(long customerID1,std::string kundenName1);
     ~Customer();
-    void addTravel(Travel* travel);
+    void addTravel(std::shared_ptr<Travel> travel);
     long getId() const;
     std::string getName() const;
-    std::vector<Travel *> getTravelList() const;
+    std::vector<std::shared_ptr<Travel>> getTravelList() const;
 };
 
 #endif // CUSTOMER_H

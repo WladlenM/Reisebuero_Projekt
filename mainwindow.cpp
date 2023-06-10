@@ -1,6 +1,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "airport.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QListWidget>
@@ -10,7 +11,10 @@
 #include <QLineEdit>
 #include <QListWidgetItem>
 #include <QInputDialog>
+#include <json.hpp>
+#include <fstream>
 
+//using namespace nlohmann;
 
 
 MainWindow::MainWindow(TravelAgency travelAgentur, QWidget *parent)
@@ -54,6 +58,35 @@ QString MainWindow::readJsonFile(QString fileName)
 {   
     std::string text = ReiseAgentur.readFile(fileName);
     QString msgFileText = QString::fromStdString(text);
+
+    /*std::string dateiName="C:\\Users\\wladl\\Documents\\Prog2\\Praktikum\\Praktikum2\\iatacodes.json";
+
+    std::ifstream einlesen(dateiName);
+
+    nlohmann::json JsonListe;
+
+    if(!einlesen)
+    {
+        std::cerr<<"Fehler: Datei konnte nicht gelsen werden!";
+    }
+
+    einlesen >> JsonListe;
+    einlesen.close();
+
+    for (auto& attribute : JsonListe)
+    {
+        std::string name;
+        name = attribute["name"].get<std::string>();
+        std::string iso_country;
+        iso_country = attribute["iso_country"].get<std::string>();
+        std::string municipality;
+        municipality = attribute["municipality"].get<std::string>();
+        std::string iata_code;
+        iata_code= attribute["iata_code"].get<std::string>();
+
+        Airport *airport = new Airport(name, iso_country, municipality, iata_code);
+        ReiseAgentur.addAirpots(airport);
+    }*/
 
     return msgFileText;
 }
@@ -266,7 +299,7 @@ void MainWindow::on_actionSuchen_triggered()
                 CustomerID = QString::number(ReiseAgentur.getAllTravels()[i]->getCustomerId());
                 for(int j=0;j<ReiseAgentur.getAllCustomers().size();j++)
                 {
-                    if(ReiseAgentur.getAllCustomers()[j]->getId()==tmpKundId)
+                    if(ReiseAgentur.getAllCustomers()[j]->getId()==KundenId)//tmpKundId)
                     {
                         CustomerName = QString::fromStdString(ReiseAgentur.getAllCustomers()[j]->getName());
                     }

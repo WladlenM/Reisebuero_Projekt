@@ -14,15 +14,15 @@ class Travel
 private:
     long id;
     long customerId;
-    std::vector<Booking*> travelBookings;
+    std::vector<std::shared_ptr<Booking>> travelBookings;
 public:
     Travel(long id, long customerID1);
     ~Travel();
-    void addBooking(Booking* booking);
+    void addBooking(std::shared_ptr<Booking> booking);
     long getId() const;
     long getCustomerId() const;
-    std::vector<Booking *> getTravelBookings() const;
-    void setTravelBookings(const std::vector<Booking *> &newTravelBookings);
+    std::vector<std::shared_ptr<Booking>> getTravelBookings() const;
+    void setTravelBookings(const std::vector<std::shared_ptr<Booking>> &newTravelBookings);
 };
 
 #endif // TRAVEL_H

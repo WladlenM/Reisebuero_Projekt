@@ -10,28 +10,31 @@
 #include <rentalcarreservation.h>
 #include <travel.h>
 #include <customer.h>
+#include <airport.h>
 
 
 class TravelAgency
 {
 private:
-    std::vector<Booking*> bookings;
-    std::vector<Travel*> allTravels;
-    std::vector<Customer*> allCustomers;
+    std::vector<std::shared_ptr<Booking>> bookings;
+    std::vector<std::shared_ptr<Travel>> allTravels;
+    std::vector<std::shared_ptr<Customer>> allCustomers;
+    std::vector<std::shared_ptr<Airport>> airpots;
 public:
     //TravelAgency();
     ~TravelAgency();
     std::string readFile(QString fileName);
     //void readBinaryFile();
-    std::vector<Booking *> getBookings() const;
-    Booking* findBooking(long id);
-    Travel* findTravel(long id);
-    Customer* findCustomer(long id);
+    std::vector<std::shared_ptr<Booking>> getBookings() const;
+    std::shared_ptr<Booking> findBooking(long id);
+    std::shared_ptr<Travel> findTravel(long id);
+    std::shared_ptr<Customer> findCustomer(long id);
+    void addAirpots(std::shared_ptr<Airport>);
     void clearData();
 
-    std::vector<Travel *> getAllTravels() const;
-    std::vector<Customer *> getAllCustomers() const;
-    void setBookings(const std::vector<Booking *> &newBookings);
+    std::vector<std::shared_ptr<Travel>> getAllTravels() const;
+    std::vector<std::shared_ptr<Customer>> getAllCustomers() const;
+    void setBookings(const std::vector<std::shared_ptr<Booking>> &newBookings);
 };
 
 #endif // TRAVELAGENCY_H

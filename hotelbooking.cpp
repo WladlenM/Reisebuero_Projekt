@@ -1,12 +1,14 @@
 #include "hotelbooking.h"
 
-HotelBooking::HotelBooking(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string hotelname,std::string stadt,std::string raumTyp, long reiseId)
+HotelBooking::HotelBooking(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string hotelname,std::string stadt,std::string raumTyp, long reiseId, std::string hotelLat, std::string hotelLongt)
 {
     id = ID;
     price = preis;
     fromDate = startDatum;
     toDate = endDatum;
     hotel = hotelname;
+    hotelLatitude = hotelLat;
+    hotelLongitude = hotelLongt;
     town = stadt;
     roomType = raumTyp;
     travelId = reiseId;

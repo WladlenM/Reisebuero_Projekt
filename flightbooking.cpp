@@ -16,14 +16,18 @@ void FlightBooking::setAirline(const std::string &newAirline)
     airline = newAirline;
 }
 
-FlightBooking::FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie, std::string bookingKlasse,std::string endDate, long reiseId)
+FlightBooking::FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie, std::string bookingKlasse,std::string endDate, long reiseId, std::string vonDestLoc, std::string vonDestLongt, std::string zuDestLoc, std::string zuDestLongt)
 {
     id = ID;
     price = preis;
     fromDate = startDatum;
     toDate = endDate;
     fromDestination = flugKrzl1;
+    fromDestLatitude = vonDestLoc;
+    fromDestLongitude = vonDestLongt;
     toDestination = flugKrzl2;
+    toDestLatitude = zuDestLoc;
+    toDestLongitude = zuDestLongt;
     airline = Fluglinie;
     bookingClass =  bookingKlasse;
     travelId = reiseId;

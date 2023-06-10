@@ -1,13 +1,17 @@
 #include "rentalcarreservation.h"
 
-RentalCarReservation::RentalCarReservation(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string Abholstation,std::string Rueckgabestation,std::string Firmenname, std::string autoKlasse, long reiseId)
+RentalCarReservation::RentalCarReservation(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string Abholstation,std::string Rueckgabestation,std::string Firmenname, std::string autoKlasse, long reiseId, std::string pickupLoc, std::string pickupLongt, std::string returnLoc, std::string returnLongt)
 {
     id = ID;
     price = preis;
     fromDate = startDatum;
     toDate = endDatum;
     pickupLocation = Abholstation;
+    pickupLatitude = pickupLoc;
+    pickupLongitude=pickupLongt;
     returnLocation = Rueckgabestation;
+    returnLatitude=returnLoc;
+    returnLongitude=returnLongt;
     company = Firmenname;
     vehicleClass = autoKlasse;
     travelId = reiseId;

@@ -230,6 +230,8 @@ public:
 
         tableWidgetBuchungen = new QTableWidget(groupBoxReise);
         tableWidgetBuchungen->setObjectName("tableWidgetBuchungen");
+        tableWidgetBuchungen->horizontalHeader()->setStretchLastSection(true);
+        tableWidgetBuchungen->verticalHeader()->setVisible(false);
 
         formLayout_2->setWidget(0, QFormLayout::FieldRole, tableWidgetBuchungen);
 
@@ -489,7 +491,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidgetBuchungTyp->setCurrentIndex(2);
+        tabWidgetBuchungTyp->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
