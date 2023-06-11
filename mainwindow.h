@@ -45,6 +45,10 @@ private slots:
 
     void on_pushButtonCancel_clicked();
 
+    void on_actionKunde_hinzuf_gen_triggered();
+
+    QString getTextFromInputDialog();
+
 private:
     Ui::MainWindow *ui;
 };

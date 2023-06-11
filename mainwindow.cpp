@@ -14,6 +14,7 @@
 #include <json.hpp>
 #include <fstream>
 #include <QDesktopServices>
+#include <QInputDialog>
 
 //using namespace nlohmann;
 
@@ -924,3 +925,75 @@ void MainWindow::on_pushButtonCancel_clicked()
 
 }
 
+
+void MainWindow::on_actionKunde_hinzuf_gen_triggered()
+{
+    /*QMessageBox msgBox;
+
+    msgBox.exec();*/
+    //QString kname = getTextFromInputDialog();
+    QDialog kundePopUp;
+    kundePopUp.setWindowTitle("Kunde hinzufügen");
+    kundePopUp.setWindowFlag(Qt::Popup);
+
+    QLabel* labelKId = new QLabel("KundenId: ");
+    QLabel* labelKName = new QLabel("Kundenname: ");
+    QLineEdit* lineEditKId = new QLineEdit(&kundePopUp);
+    QLineEdit* lineEditKName = new QLineEdit(&kundePopUp);
+    QPushButton* buttonHinzufuegen = new QPushButton("Hinzufügen", &kundePopUp);
+    QPushButton* buttonSchliessen = new QPushButton("Schließen", &kundePopUp);
+
+    QFormLayout* layout = new QFormLayout(&kundePopUp);
+
+    int kid=0;
+
+    for(const std::shared_ptr<Customer>& customer : ReiseAgentur.getAllCustomers())
+    {
+    if(customer->getId()>kid)
+        {
+        kid = customer->getId();
+        }
+    }
+    kid++;
+
+    QString qstrKid = QString::number(kid);
+
+    lineEditKId->setText(qstrKid);
+    lineEditKId->setDisabled(true);
+    layout->addRow(labelKId,lineEditKId);
+    layout->addRow(labelKName, lineEditKName);
+    layout->addWidget(buttonHinzufuegen);
+    layout->addWidget(buttonSchliessen);
+
+    QObject::connect(buttonHinzufuegen, &QPushButton::clicked, &kundePopUp, &QDialog::accept);
+    QObject::connect(buttonSchliessen, &QPushButton::clicked, &kundePopUp, &QDialog::close);
+
+    std::shared_ptr<Customer> kunde;
+    if(kundePopUp.exec()==QDialog::Accepted)
+    {
+        QString kidtmp = lineEditKId->text();
+        long kid = kidtmp.toLong();
+        QString knametmp= lineEditKName->text();
+        std::string kname = knametmp.toStdString();
+        kunde = std::make_shared<Customer>(kid,kname);
+        ReiseAgentur.addCustomer(kunde);
+    }
+
+}
+
+QString MainWindow::getTextFromInputDialog()
+{
+    /*bool ok;
+
+    QDialog::
+    QString text = QInputDialog::getText(nullptr,"Eingabe","Bitte geben sie den Kundennamen ein:",QLineEdit::Normal,"",&ok);
+
+    if(ok && !text.isEmpty())
+    {
+    return text;
+    }
+    else
+    {
+    return "";
+    }*/
+}

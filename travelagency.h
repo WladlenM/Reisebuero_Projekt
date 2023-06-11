@@ -35,6 +35,7 @@ public:
     std::vector<std::shared_ptr<Travel>> getAllTravels() const;
     std::vector<std::shared_ptr<Customer>> getAllCustomers() const;
     void setBookings(const std::vector<std::shared_ptr<Booking>> &newBookings);
+    void addCustomer(std::shared_ptr<Customer>);
 };
 
 #endif // TRAVELAGENCY_H

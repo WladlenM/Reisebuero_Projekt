@@ -466,6 +466,7 @@
      <string>Kund*innen</string>
     </property>
     <addaction name="actionSuchen"/>
+    <addaction name="actionKunde_hinzuf_gen"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuKunde"/>
@@ -483,6 +484,11 @@
   <action name="actionSuchen">
    <property name="text">
     <string>Suchen</string>
+   </property>
+  </action>
+  <action name="actionKunde_hinzuf_gen">
+   <property name="text">
+    <string>Kunde hinzufügen</string>
    </property>
   </action>
  </widget>

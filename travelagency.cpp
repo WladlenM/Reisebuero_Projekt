@@ -48,6 +48,11 @@ void TravelAgency::addAirpots(std::shared_ptr<Airport>air)
     airpots.push_back(air);
 }
 
+void TravelAgency::addCustomer(std::shared_ptr<Customer> cust)
+{
+    allCustomers.push_back(cust);
+}
+
 void TravelAgency::clearData()
 {
     bookings.clear();
