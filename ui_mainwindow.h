@@ -39,6 +39,7 @@ public:
     QAction *actionEinlesen_2;
     QAction *actionSuchen;
     QAction *actionKunde_hinzuf_gen;
+    QAction *actionBuchung_hinzuf_gen;
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout_8;
     QHBoxLayout *horizontalLayout_4;
@@ -134,6 +135,8 @@ public:
         actionSuchen->setObjectName("actionSuchen");
         actionKunde_hinzuf_gen = new QAction(MainWindow);
         actionKunde_hinzuf_gen->setObjectName("actionKunde_hinzuf_gen");
+        actionBuchung_hinzuf_gen = new QAction(MainWindow);
+        actionBuchung_hinzuf_gen->setObjectName("actionBuchung_hinzuf_gen");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         horizontalLayout_8 = new QHBoxLayout(centralwidget);
@@ -528,6 +531,7 @@ public:
         menuDatei->addAction(actionEinlesen_2);
         menuKunde->addAction(actionSuchen);
         menuKunde->addAction(actionKunde_hinzuf_gen);
+        menuKunde->addAction(actionBuchung_hinzuf_gen);
 
         retranslateUi(MainWindow);
 
@@ -544,6 +548,7 @@ public:
         actionEinlesen_2->setText(QCoreApplication::translate("MainWindow", "Einlesen", nullptr));
         actionSuchen->setText(QCoreApplication::translate("MainWindow", "Suchen", nullptr));
         actionKunde_hinzuf_gen->setText(QCoreApplication::translate("MainWindow", "Kunde hinzuf\303\274gen", nullptr));
+        actionBuchung_hinzuf_gen->setText(QCoreApplication::translate("MainWindow", "Buchung hinzuf\303\274gen", nullptr));
         groupBoxKunde->setTitle(QCoreApplication::translate("MainWindow", "Kund*in", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Name", nullptr));

@@ -47,7 +47,7 @@ private slots:
 
     void on_actionKunde_hinzuf_gen_triggered();
 
-    QString getTextFromInputDialog();
+    void on_actionBuchung_hinzuf_gen_triggered();
 
 private:
     Ui::MainWindow *ui;

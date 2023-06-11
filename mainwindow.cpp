@@ -15,6 +15,7 @@
 #include <fstream>
 #include <QDesktopServices>
 #include <QInputDialog>
+#include <QUuid>
 
 //using namespace nlohmann;
 
@@ -294,12 +295,12 @@ void MainWindow::on_actionSuchen_triggered()
             }
         }
 
-        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        for(int i=0;i<ReiseAgentur.getAllCustomers().size();i++)
         {
-            if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
+            if(ReiseAgentur.getAllCustomers()[i]->getId()==KundenId)
             {
-                long tmpKundId = ReiseAgentur.getAllTravels()[i]->getCustomerId();
-                CustomerID = QString::number(ReiseAgentur.getAllTravels()[i]->getCustomerId());
+                long tmpKundId = ReiseAgentur.getAllCustomers()[i]->getId();
+                CustomerID = QString::number(ReiseAgentur.getAllCustomers()[i]->getId());
                 for(int j=0;j<ReiseAgentur.getAllCustomers().size();j++)
                 {
                     if(ReiseAgentur.getAllCustomers()[j]->getId()==KundenId)//tmpKundId)
@@ -928,10 +929,6 @@ void MainWindow::on_pushButtonCancel_clicked()
 
 void MainWindow::on_actionKunde_hinzuf_gen_triggered()
 {
-    /*QMessageBox msgBox;
-
-    msgBox.exec();*/
-    //QString kname = getTextFromInputDialog();
     QDialog kundePopUp;
     kundePopUp.setWindowTitle("Kunde hinzufügen");
     kundePopUp.setWindowFlag(Qt::Popup);
@@ -981,19 +978,208 @@ void MainWindow::on_actionKunde_hinzuf_gen_triggered()
 
 }
 
-QString MainWindow::getTextFromInputDialog()
+void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
 {
-    /*bool ok;
+    QDialog buchungPopUpFrage;
+    buchungPopUpFrage.setWindowTitle("Buchung hinzufügen");
+    buchungPopUpFrage.setWindowFlag(Qt::Popup);
 
-    QDialog::
-    QString text = QInputDialog::getText(nullptr,"Eingabe","Bitte geben sie den Kundennamen ein:",QLineEdit::Normal,"",&ok);
+    QLabel* labelFrage = new QLabel("Für bestehende Reise hinzufügen oder neue Reise?");
 
-    if(ok && !text.isEmpty())
+    QPushButton* buttonbestehen = new QPushButton("Bestehende Reise", &buchungPopUpFrage);
+    QPushButton* buttonneu = new QPushButton("Neue Reise", &buchungPopUpFrage);
+
+    QFormLayout* layout = new QFormLayout(&buchungPopUpFrage);
+
+    layout->addRow(labelFrage);
+    layout->addWidget(buttonbestehen);
+    layout->addWidget(buttonneu);
+
+    QObject::connect(buttonbestehen, &QPushButton::clicked, &buchungPopUpFrage, &QDialog::accept);
+    QObject::connect(buttonneu, &QPushButton::clicked, &buchungPopUpFrage, &QDialog::close);
+
+    if(buchungPopUpFrage.exec()==QDialog::Accepted)
     {
-    return text;
+        buchungPopUpFrage.close();
+        QDialog buchungPopUpBest;
+        buchungPopUpBest.setWindowTitle("Buchung hinzufügen");
+        buchungPopUpBest.setWindowFlag(Qt::Popup);
+
+        QLabel* labelBuchungsId = new QLabel("BuchungsId: ");
+        QLineEdit* lineEditBuchungsId = new QLineEdit(&buchungPopUpBest);
+        QString bookingId = QUuid::createUuid().toString();
+
+        QLabel* labelReiseId = new QLabel("Für welche Reise(bitte ReiseId eingeben): ");
+        QLineEdit* lineEditReiseId = new QLineEdit(&buchungPopUpBest);
+
+        QLabel* labelStartDatum = new QLabel("Von: ");
+        QDateEdit* dateEditeStartDatum = new QDateEdit(&buchungPopUpBest);
+
+        QLabel* labelEndDatum = new QLabel("Bis: ");
+        QDateEdit* dateEditEndDatum = new QDateEdit(&buchungPopUpBest);
+
+        QLabel* labelPreis = new QLabel("Preis: ");
+        QDoubleSpinBox* doubleSpinBoxPreis = new QDoubleSpinBox(&buchungPopUpBest);
+
+        QPushButton* buttonHinzufuegen = new QPushButton("Hinzufügen", &buchungPopUpBest);
+        QPushButton* buttonSchliessen = new QPushButton("Schließen", &buchungPopUpBest);
+
+        QObject::connect(buttonHinzufuegen, &QPushButton::clicked, &buchungPopUpBest, &QDialog::accept);
+        QObject::connect(buttonSchliessen, &QPushButton::clicked, &buchungPopUpBest, &QDialog::close);
+        QFormLayout* layoutbst = new QFormLayout(&buchungPopUpBest);
+
+        lineEditBuchungsId->setText(bookingId);
+        lineEditBuchungsId->setDisabled(true);
+        layoutbst->addRow(labelBuchungsId, lineEditBuchungsId);
+        layoutbst->addRow(labelReiseId, lineEditReiseId);
+        layoutbst->addRow(labelStartDatum, dateEditeStartDatum);
+        layoutbst->addRow(labelEndDatum, dateEditEndDatum);
+        layoutbst->addRow(labelPreis, doubleSpinBoxPreis);
+        layoutbst->addWidget(buttonHinzufuegen);
+        layoutbst->addWidget(buttonSchliessen);
+
+        std::shared_ptr<FlightBooking> buchung;
+        if(buchungPopUpBest.exec()==QDialog::Accepted)
+        {
+            QString bidtmp = lineEditBuchungsId->text();
+            std::string bid = bidtmp.toStdString();
+            QString ridtmp= lineEditReiseId->text();
+            long rid = ridtmp.toLong();
+
+            QDate startDatumtmp = dateEditeStartDatum->date();
+            QString qstartDatum =startDatumtmp.toString("yyyyMMdd");
+            std::string startDatum = qstartDatum.toStdString();
+
+            QDate endDatumtmp = dateEditEndDatum->date();
+            QString qendDatum =endDatumtmp.toString("yyyyMMdd");
+            std::string endDatum = qendDatum.toStdString();
+
+            double preis = doubleSpinBoxPreis->value();
+
+            buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000");
+            ReiseAgentur.addBuchung(buchung);
+            for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+            {
+                if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                {
+                    ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                }
+            }
+        }
     }
     else
     {
-    return "";
-    }*/
+        buchungPopUpFrage.close();
+        QDialog buchungPopUpNeu;
+        buchungPopUpNeu.setWindowTitle("Buchung hinzufügen");
+        buchungPopUpNeu.setWindowFlag(Qt::Popup);
+
+        QLabel* labelBuchungsId = new QLabel("BuchungsId: ");
+        QLineEdit* lineEditBuchungsId = new QLineEdit(&buchungPopUpNeu);
+        QString bookingId = QUuid::createUuid().toString();
+
+        QLabel* labelReiseId = new QLabel("Für welche Reise(bitte ReiseId eingeben): ");
+        QLineEdit* lineEditReiseId = new QLineEdit(&buchungPopUpNeu);
+
+        int rid=0;
+
+        for(const std::shared_ptr<Travel>& travel : ReiseAgentur.getAllTravels())
+        {
+            if(travel->getId()>rid)
+            {
+                rid = travel->getId();
+            }
+        }
+        rid++;
+
+        QString qrid = QString::number(rid);
+
+        QLabel* labelStartDatum = new QLabel("Von: ");
+        QDateEdit* dateEditeStartDatum = new QDateEdit(&buchungPopUpNeu);
+
+        QLabel* labelEndDatum = new QLabel("Bis: ");
+        QDateEdit* dateEditEndDatum = new QDateEdit(&buchungPopUpNeu);
+
+        QLabel* labelPreis = new QLabel("Preis: ");
+        QDoubleSpinBox* doubleSpinBoxPreis = new QDoubleSpinBox(&buchungPopUpNeu);
+
+        QLabel* labelKunde = new QLabel("KundeId(Wenn keine KundenId vorhanden, bitte eine erstellen): ");
+        QLineEdit* lineEditKundeId=new QLineEdit(&buchungPopUpNeu);
+
+        QPushButton* buttonHinzufuegen = new QPushButton("Hinzufügen", &buchungPopUpNeu);
+        QPushButton* buttonSchliessen = new QPushButton("Schließen", &buchungPopUpNeu);
+
+        QObject::connect(buttonHinzufuegen, &QPushButton::clicked, &buchungPopUpNeu, &QDialog::accept);
+        QObject::connect(buttonSchliessen, &QPushButton::clicked, &buchungPopUpNeu, &QDialog::close);
+        QFormLayout* layoutneu = new QFormLayout(&buchungPopUpNeu);
+
+        lineEditBuchungsId->setText(bookingId);
+        lineEditBuchungsId->setDisabled(true);
+        lineEditReiseId->setText(qrid);
+        lineEditReiseId->setDisabled(true);
+        layoutneu->addRow(labelBuchungsId, lineEditBuchungsId);
+        layoutneu->addRow(labelReiseId, lineEditReiseId);
+        layoutneu->addRow(labelKunde, lineEditKundeId);
+        layoutneu->addRow(labelStartDatum, dateEditeStartDatum);
+        layoutneu->addRow(labelEndDatum, dateEditEndDatum);
+        layoutneu->addRow(labelPreis, doubleSpinBoxPreis);
+        layoutneu->addWidget(buttonHinzufuegen);
+        layoutneu->addWidget(buttonSchliessen);
+
+        std::shared_ptr<FlightBooking> buchung;
+        std::shared_ptr<Travel> trav;
+        if(buchungPopUpNeu.exec()==QDialog::Accepted)
+        {
+            QString bidtmp = lineEditBuchungsId->text();
+            std::string bid = bidtmp.toStdString();
+
+            QString ridtmp= lineEditReiseId->text();
+            long rid = ridtmp.toLong();
+
+            QString kidtmp = lineEditKundeId->text();
+            long kid = kidtmp.toLong();
+
+            QDate startDatumtmp = dateEditeStartDatum->date();
+            QString qstartDatum =startDatumtmp.toString("yyyyMMdd");
+            std::string startDatum = qstartDatum.toStdString();
+
+            QDate endDatumtmp = dateEditEndDatum->date();
+            QString qendDatum =endDatumtmp.toString("yyyyMMdd");
+            std::string endDatum = qendDatum.toStdString();
+
+            double preis = doubleSpinBoxPreis->value();
+
+            bool idExists = false;
+            for(const std::shared_ptr<Customer>& cust : ReiseAgentur.getAllCustomers())
+            {
+                if(cust->getId()==kid)
+                {
+                    idExists = true;
+                    break;
+                }
+            }
+            if(idExists==true)
+            {
+                buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000");
+                trav = std::make_shared<Travel>(rid,kid);
+                ReiseAgentur.addBuchung(buchung);
+                ReiseAgentur.addTravel(trav);
+                for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+                {
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                    }
+                }
+            }
+            else
+            {
+                QMessageBox msgBox;
+                QString error = "KundenId existiert nicht. Bitte füge zuerst diese KundenId hinzufügen!";
+                msgBox.setText(error);
+                msgBox.exec();
+            }
+        }
+    }
 }
+

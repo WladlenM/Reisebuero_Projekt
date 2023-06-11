@@ -467,6 +467,7 @@
     </property>
     <addaction name="actionSuchen"/>
     <addaction name="actionKunde_hinzuf_gen"/>
+    <addaction name="actionBuchung_hinzuf_gen"/>
    </widget>
    <addaction name="menuDatei"/>
    <addaction name="menuKunde"/>
@@ -489,6 +490,11 @@
   <action name="actionKunde_hinzuf_gen">
    <property name="text">
     <string>Kunde hinzufügen</string>
+   </property>
+  </action>
+  <action name="actionBuchung_hinzuf_gen">
+   <property name="text">
+    <string>Buchung hinzufügen</string>
    </property>
   </action>
  </widget>

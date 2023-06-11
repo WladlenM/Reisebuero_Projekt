@@ -53,6 +53,16 @@ void TravelAgency::addCustomer(std::shared_ptr<Customer> cust)
     allCustomers.push_back(cust);
 }
 
+void TravelAgency::addBuchung(std::shared_ptr<Booking>book)
+{
+    bookings.push_back(book);
+}
+
+void TravelAgency::addTravel(std::shared_ptr<Travel> travel)
+{
+    allTravels.push_back(travel);
+}
+
 void TravelAgency::clearData()
 {
     bookings.clear();
