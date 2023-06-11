@@ -1183,3 +1183,20 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
     }
 }
 
+
+void MainWindow::on_actionSpeichern_triggered()
+{
+    QString filePath = QFileDialog::getSaveFileName(this, "JSON-Datei speichern",QDir::homePath(), "JSON-Dateien (*.json;;Alle Dateien(*.*)");
+
+    /*if(!filePath.isEmpty())
+    {
+        QJsonObject jsonObject;
+
+        QFile file(filePath);
+        if(file.open(QIODevice::WriteOnly))
+        {
+            QJsonDocument jsonDoc(jsonObject);
+        }
+    }*/
+}
+

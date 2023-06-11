@@ -49,6 +49,8 @@ private slots:
 
     void on_actionBuchung_hinzuf_gen_triggered();
 
+    void on_actionSpeichern_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

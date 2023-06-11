@@ -460,6 +460,7 @@
      <string>Datei</string>
     </property>
     <addaction name="actionEinlesen_2"/>
+    <addaction name="actionSpeichern"/>
    </widget>
    <widget class="QMenu" name="menuKunde">
     <property name="title">
@@ -495,6 +496,11 @@
   <action name="actionBuchung_hinzuf_gen">
    <property name="text">
     <string>Buchung hinzufügen</string>
+   </property>
+  </action>
+  <action name="actionSpeichern">
+   <property name="text">
+    <string>Speichern</string>
    </property>
   </action>
  </widget>
