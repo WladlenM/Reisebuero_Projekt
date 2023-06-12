@@ -38,6 +38,7 @@ public:
     void addCustomer(std::shared_ptr<Customer>);
     void addBuchung(std::shared_ptr<Booking>);
     void addTravel(std::shared_ptr<Travel>);
+    void saveToJSON(std::string button);
 };
 
 #endif // TRAVELAGENCY_H

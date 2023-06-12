@@ -63,6 +63,26 @@ void TravelAgency::addTravel(std::shared_ptr<Travel> travel)
     allTravels.push_back(travel);
 }
 
+void TravelAgency::saveToJSON(std::string button)
+{
+    if(button=="preis")
+    {
+        std::sort(bookings.begin(),bookings.end(),[](std::shared_ptr<Booking>& a, std::shared_ptr<Booking>& b){return a->getPrice()<b->getPrice();});
+    }
+    else if(button=="fromDate")
+    {
+        std::sort(bookings.begin(),bookings.end(),[](std::shared_ptr<Booking>& a, std::shared_ptr<Booking>& b){return a->getFromDate()<b->getFromDate();});
+    }
+    else if(button=="toDate")
+    {
+        std::sort(bookings.begin(),bookings.end(),[](std::shared_ptr<Booking>& a, std::shared_ptr<Booking>& b){return a->getToDate()<b->getToDate();});
+    }
+    else if(button=="travelId")
+    {
+        std::sort(bookings.begin(),bookings.end(),[](std::shared_ptr<Booking>& a, std::shared_ptr<Booking>& b){return a->getTravelId()<b->getTravelId();});
+    }
+}
+
 void TravelAgency::clearData()
 {
     bookings.clear();

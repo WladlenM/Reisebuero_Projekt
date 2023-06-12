@@ -16,6 +16,11 @@
 #include <QDesktopServices>
 #include <QInputDialog>
 #include <QUuid>
+#include <QByteArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QVariant>
+#include <QJsonArray>
 
 //using namespace nlohmann;
 
@@ -753,17 +758,17 @@ void MainWindow::on_pushButtonSave_clicked()
                         bookingClass="Y";
                         ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->changeType(3,bookingClass);
                     }
-                    else if(bookingClass=="Premium Economy class")
+                    else if(KlasseBooking=="Premium Economy class")
                     {
                         bookingClass="W";
                         ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->changeType(3,bookingClass);
                     }
-                    else if(bookingClass=="Buseniess class")
+                    else if(KlasseBooking=="Buseniess class")
                     {
                         bookingClass="J";
                         ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->changeType(3,bookingClass);
                     }
-                    else if(bookingClass=="First class")
+                    else if(KlasseBooking=="First class")
                     {
                         bookingClass="F";
                         ReiseAgentur.getAllTravels()[i]->getTravelBookings()[j]->changeType(3,bookingClass);
@@ -1186,17 +1191,292 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
 
 void MainWindow::on_actionSpeichern_triggered()
 {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle("Sortierauswahl");
+    msgBox.setText("Wähle einen Sortierung aus");
+    msgBox.addButton("Nach Preis sortiert", QMessageBox::AcceptRole);
+    msgBox.addButton("Nach Start Datum sortiert", QMessageBox::AcceptRole);
+    msgBox.addButton("Nach End Datum sortiert", QMessageBox::AcceptRole);
+    msgBox.addButton("Nach Travel Id sortiert", QMessageBox::AcceptRole);
+
+    int buttonClicked = msgBox.exec();
+
+    std::string button;
+    if(buttonClicked==0)
+    {
+        button="preis";
+    }
+    else if(buttonClicked==1)
+    {
+        button="fromDate";
+    }
+    else if(buttonClicked==2)
+    {
+        button="toDate";
+    }
+    else if(buttonClicked==3)
+    {
+        button="travelId";
+    }
+
+    ReiseAgentur.saveToJSON(button);
+
+    QJsonArray jsonArray;
+    QJsonObject jsonObject;
+    QJsonObject jsonObject2;
+    QJsonObject jsonObject3;
+    long custId;
+    for(int i=0;i<ReiseAgentur.getBookings().size();i++)
+    {
+        QString type = QString::fromStdString(ReiseAgentur.getBookings()[i]->showDetails());
+        if(type.contains("Flugbuchung"))
+        {
+            std::string airlineStd = ReiseAgentur.getBookings()[i]->myType()[2];
+            QString airline = QString::fromStdString(airlineStd);
+            jsonObject["airline"] = airline;
+
+            std::string KlasseBooking = ReiseAgentur.getBookings()[i]->myType()[3];
+            QString bookingClass;
+
+            if(KlasseBooking=="Economy class")
+            {
+                bookingClass="Y";
+                jsonObject["bookingClass"] = bookingClass;
+            }
+            else if(KlasseBooking=="Premium Economy class")
+            {
+                bookingClass="W";
+                jsonObject["bookingClass"] = bookingClass;
+            }
+            else if(KlasseBooking=="Buseniess class")
+            {
+                bookingClass="J";
+                jsonObject["bookingClass"] = bookingClass;
+            }
+            else if(KlasseBooking=="First class")
+            {
+                bookingClass="F";
+                jsonObject["bookingClass"] = bookingClass;
+            }
+            for(int j=0;j<ReiseAgentur.getAllTravels().size();j++)
+            {
+                if(ReiseAgentur.getAllTravels()[j]->getId()==ReiseAgentur.getBookings()[i]->getTravelId())
+                {
+                    custId = ReiseAgentur.getAllTravels()[j]->getCustomerId();
+                    jsonObject["customerId"] = static_cast<qint64>(custId);
+                }
+            }
+            for(int j=0;j<ReiseAgentur.getAllCustomers().size();j++)
+            {
+                if(ReiseAgentur.getAllCustomers()[j]->getId()==custId)
+                {
+                    std::string custNameStd = ReiseAgentur.getAllCustomers()[j]->getName();
+                    QString custName = QString::fromStdString(custNameStd);
+                    jsonObject["customerName"] = custName;
+                }
+            }
+            std::string fromDateStd = ReiseAgentur.getBookings()[i]->getFromDate();
+            QString fromDate = QString::fromStdString(fromDateStd);
+            jsonObject["fromDate"] = fromDate;
+            std::string fromDestStd = ReiseAgentur.getBookings()[i]->myType()[0];
+            QString fromDest = QString::fromStdString(fromDestStd);
+            jsonObject["fromDest"] = fromDest;
+            std::string fromDestLatStd = ReiseAgentur.getBookings()[i]->myType()[4];
+            QString fromDestLat = QString::fromStdString(fromDestLatStd);
+            jsonObject["fromDestLatitude"] = fromDestLat;
+            std::string fromDestLongStd = ReiseAgentur.getBookings()[i]->myType()[5];
+            QString fromDestLong = QString::fromStdString(fromDestLongStd);
+            jsonObject["fromDestLongitude"] = fromDestLong;
+            std::string idStd = ReiseAgentur.getBookings()[i]->getId();
+            QString id = QString::fromStdString(idStd);
+            jsonObject["id"] = id;
+            jsonObject["price"] = ReiseAgentur.getBookings()[i]->getPrice();
+            std::string toDateStd = ReiseAgentur.getBookings()[i]->getToDate();
+            QString toDate = QString::fromStdString(toDateStd);
+            jsonObject["toDate"] = toDate;
+            std::string toDestStd = ReiseAgentur.getBookings()[i]->myType()[1];
+            QString toDest = QString::fromStdString(toDestStd);
+            jsonObject["toDest"] = toDest;
+            std::string toDestLatStd = ReiseAgentur.getBookings()[i]->myType()[6];
+            QString toDestLat= QString::fromStdString(toDestLatStd);
+            jsonObject["toDestLatitude"] = toDestLat;
+            std::string toDestLongStd = ReiseAgentur.getBookings()[i]->myType()[7];
+            QString toDestLong= QString::fromStdString(toDestLongStd);
+            jsonObject["toDestLongitude"] = toDestLong;
+            jsonObject["travelId"] = static_cast<qint64>(ReiseAgentur.getBookings()[i]->getTravelId());
+            jsonObject["type"] = "Flight";
+            jsonArray.append(jsonObject);
+        }
+        else if(type.contains("Hotelreservierung"))
+        {
+            for(int j=0;j<ReiseAgentur.getAllTravels().size();j++)
+            {
+                if(ReiseAgentur.getAllTravels()[j]->getId()==ReiseAgentur.getBookings()[i]->getTravelId())
+                {
+                    custId = ReiseAgentur.getAllTravels()[j]->getCustomerId();
+                    jsonObject2["customerId"] = static_cast<qint64>(custId);
+                }
+            }
+
+            for(int j=0;j<ReiseAgentur.getAllCustomers().size();j++)
+            {
+                if(ReiseAgentur.getAllCustomers()[j]->getId()==custId)
+                {
+                    std::string custNameStd = ReiseAgentur.getAllCustomers()[j]->getName();
+                    QString custName = QString::fromStdString(custNameStd);
+                    jsonObject2["customerName"] = custName;
+                }
+            }
+
+            std::string fromDateStd = ReiseAgentur.getBookings()[i]->getFromDate();
+            QString fromDate = QString::fromStdString(fromDateStd);
+            jsonObject2["fromDate"] = fromDate;
+
+            std::string hotelStd = ReiseAgentur.getBookings()[i]->myType()[0];
+            QString hotel = QString::fromStdString(hotelStd);
+            jsonObject2["hotel"] = hotel;
+
+            std::string hotelLatStd = ReiseAgentur.getBookings()[i]->myType()[3];
+            QString hotelLat = QString::fromStdString(hotelLatStd);
+            jsonObject2["hotelLatitude"] = hotelLat;
+
+            std::string hotelLongStd = ReiseAgentur.getBookings()[i]->myType()[4];
+            QString hotelLong = QString::fromStdString(hotelLongStd);
+            jsonObject2["hotelLongitude"] = hotelLong;
+
+            std::string idStd = ReiseAgentur.getBookings()[i]->getId();
+            QString id = QString::fromStdString(idStd);
+            jsonObject2["id"] = id;
+
+            jsonObject2["price"] = ReiseAgentur.getBookings()[i]->getPrice();
+
+            std::string zimmer = ReiseAgentur.getBookings()[i]->myType()[2];
+
+            QString roomType;
+            if(zimmer=="Einzelzimmer")
+            {
+                roomType="EZ";
+                jsonObject2["roomType"] = roomType;
+            }
+            else if(zimmer=="Doppelzimmer")
+            {
+                roomType="DZ";
+                jsonObject2["roomType"] = roomType;
+            }
+            else if(zimmer=="Appartment")
+            {
+                roomType="AP";
+                jsonObject2["roomType"] = roomType;
+            }
+            else if(zimmer=="Suite")
+            {
+                roomType="SU";
+                jsonObject2["roomType"] = roomType;
+            }
+
+            std::string toDateStd = ReiseAgentur.getBookings()[i]->getToDate();
+            QString toDate = QString::fromStdString(toDateStd);
+            jsonObject2["toDate"] = toDate;
+
+            std::string townStd = ReiseAgentur.getBookings()[i]->myType()[1];
+            QString town = QString::fromStdString(townStd);
+            jsonObject2["town"] = town;
+
+            jsonObject2["travelId"] = static_cast<qint64>(ReiseAgentur.getBookings()[i]->getTravelId());
+
+            jsonObject2["type"] = "Hotel";
+            jsonArray.append(jsonObject2);
+        }
+        else if(type.contains("Mietwagenreservierung"))
+        {
+            std::string companyStd = ReiseAgentur.getBookings()[i]->myType()[2];
+            QString company = QString::fromStdString(companyStd);
+            jsonObject3["company"] = company;
+
+            for(int j=0;j<ReiseAgentur.getAllTravels().size();j++)
+            {
+                if(ReiseAgentur.getAllTravels()[j]->getId()==ReiseAgentur.getBookings()[i]->getTravelId())
+                {
+                    custId = ReiseAgentur.getAllTravels()[j]->getCustomerId();
+                    jsonObject3["customerId"] = static_cast<qint64>(custId);
+                }
+            }
+
+            for(int j=0;j<ReiseAgentur.getAllCustomers().size();j++)
+            {
+                if(ReiseAgentur.getAllCustomers()[j]->getId()==custId)
+                {
+                    std::string custNameStd = ReiseAgentur.getAllCustomers()[j]->getName();
+                    QString custName = QString::fromStdString(custNameStd);
+                    jsonObject3["customerName"] = custName;
+                }
+            }
+
+            std::string fromDateStd = ReiseAgentur.getBookings()[i]->getFromDate();
+            QString fromDate = QString::fromStdString(fromDateStd);
+            jsonObject3["fromDate"] = fromDate;
+
+            std::string idStd = ReiseAgentur.getBookings()[i]->getId();
+            QString id = QString::fromStdString(idStd);
+            jsonObject3["id"] = id;
+
+            std::string pickupLatStd = ReiseAgentur.getBookings()[i]->myType()[4];
+            QString pickupLat = QString::fromStdString(pickupLatStd);
+            jsonObject3["pickupLatitude"] = pickupLat;
+
+            std::string pickupLocStd = ReiseAgentur.getBookings()[i]->myType()[0];
+            QString pickupLoc = QString::fromStdString(pickupLocStd);
+            jsonObject3["pickupLocation"] = pickupLoc;
+
+            std::string pickupLongStd = ReiseAgentur.getBookings()[i]->myType()[5];
+            QString pickupLong = QString::fromStdString(pickupLongStd);
+            jsonObject3["pickupLongitude"] = pickupLong;
+
+            jsonObject3["price"] = ReiseAgentur.getBookings()[i]->getPrice();
+
+            std::string returnLatStd = ReiseAgentur.getBookings()[i]->myType()[6];
+            QString returnLat = QString::fromStdString(returnLatStd);
+            jsonObject3["returnLatitude"] = returnLat;
+
+            std::string returnLocStd = ReiseAgentur.getBookings()[i]->myType()[1];
+            QString returnLoc = QString::fromStdString(returnLocStd);
+            jsonObject3["returnLocation"] = returnLoc;
+
+            std::string returnLongStd = ReiseAgentur.getBookings()[i]->myType()[7];
+            QString returnLong = QString::fromStdString(returnLongStd);
+            jsonObject3["returnLongitude"] = returnLong;
+
+            std::string toDateStd = ReiseAgentur.getBookings()[i]->getToDate();
+            QString toDate = QString::fromStdString(toDateStd);
+            jsonObject3["toDate"] = toDate;
+
+            jsonObject3["travelId"] = static_cast<qint64>(ReiseAgentur.getBookings()[i]->getTravelId());
+
+            jsonObject3["type"] = "RentalCar";
+
+            std::string vehicleClassStd = ReiseAgentur.getBookings()[i]->myType()[3];
+            QString vehicleClass = QString::fromStdString(vehicleClassStd);
+            jsonObject3["vehicleClass"] = vehicleClass;
+            jsonArray.append(jsonObject3);
+        }
+    }
+
+    QJsonDocument jsonDoc(jsonArray);
+
+    QByteArray jsonData = jsonDoc.toJson();
+
     QString filePath = QFileDialog::getSaveFileName(this, "JSON-Datei speichern",QDir::homePath(), "JSON-Dateien (*.json;;Alle Dateien(*.*)");
 
-    /*if(!filePath.isEmpty())
+    if(!filePath.isEmpty())
     {
-        QJsonObject jsonObject;
 
         QFile file(filePath);
         if(file.open(QIODevice::WriteOnly))
         {
-            QJsonDocument jsonDoc(jsonObject);
+            file.write(jsonData);
+
+            file.close();
         }
-    }*/
+    }
 }
 
