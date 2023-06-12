@@ -1,7 +1,7 @@
 #ifndef TRAVELAGENCY_H
 #define TRAVELAGENCY_H
 #include <iostream>
-#include <QApplication>
+//#include <QApplication>
 
 #include <vector>
 #include <booking.h>
