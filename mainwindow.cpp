@@ -21,6 +21,7 @@
 #include <QJsonObject>
 #include <QVariant>
 #include <QJsonArray>
+#include <QComboBox>
 
 //using namespace nlohmann;
 
@@ -991,12 +992,18 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
 
     QLabel* labelFrage = new QLabel("Für bestehende Reise hinzufügen oder neue Reise?");
 
+    QComboBox* comboBoxBuchung = new QComboBox(&buchungPopUpFrage);
+    comboBoxBuchung->addItem("Flugbuchung");
+    comboBoxBuchung->addItem("Hotelreservierung");
+    comboBoxBuchung->addItem("Mietwagenreservierung");
+
     QPushButton* buttonbestehen = new QPushButton("Bestehende Reise", &buchungPopUpFrage);
     QPushButton* buttonneu = new QPushButton("Neue Reise", &buchungPopUpFrage);
 
     QFormLayout* layout = new QFormLayout(&buchungPopUpFrage);
 
     layout->addRow(labelFrage);
+    layout->addRow(comboBoxBuchung);
     layout->addWidget(buttonbestehen);
     layout->addWidget(buttonneu);
 
@@ -1005,6 +1012,7 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
 
     if(buchungPopUpFrage.exec()==QDialog::Accepted)
     {
+        QString selectedBuchung = comboBoxBuchung->currentText();
         buchungPopUpFrage.close();
         QDialog buchungPopUpBest;
         buchungPopUpBest.setWindowTitle("Buchung hinzufügen");
@@ -1043,7 +1051,7 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
         layoutbst->addWidget(buttonHinzufuegen);
         layoutbst->addWidget(buttonSchliessen);
 
-        std::shared_ptr<FlightBooking> buchung;
+
         if(buchungPopUpBest.exec()==QDialog::Accepted)
         {
             QString bidtmp = lineEditBuchungsId->text();
@@ -1061,20 +1069,55 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
 
             double preis = doubleSpinBoxPreis->value();
 
-            buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000");
-            ReiseAgentur.addBuchung(buchung);
-            for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+            if(selectedBuchung.contains("Flugbuchung"))
             {
-                if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                std::shared_ptr<FlightBooking> buchung;
+                buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","airlineTest","W",endDatum,rid,"0.000","0.000","1.000","1.000");
+                ReiseAgentur.addBuchung(buchung);
+
+                for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
                 {
-                    ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                    }
                 }
             }
+            else if(selectedBuchung.contains("Hotelreservierung"))
+            {
+                std::shared_ptr<HotelBooking> buchung;
+                buchung = std::make_shared<HotelBooking>(bid, preis, startDatum, endDatum, "hotelTest", "stadtTest", "EZ", rid, "0.000","0.000");
+                ReiseAgentur.addBuchung(buchung);
+
+                for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+                {
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                    }
+                }
+            }
+            else if(selectedBuchung.contains("Mietwagenreservierung"))
+            {
+                std::shared_ptr<RentalCarReservation> buchung;
+                buchung = std::make_shared<RentalCarReservation>(bid, preis, startDatum, endDatum, "pickupTestLoc", "returnTestLoc", "firmaTest", "CCAR", rid, "0.000", "0.000", "0.000","0.0000");
+                ReiseAgentur.addBuchung(buchung);
+
+                for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+                {
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                    }
+                }
+            }
+
         }
     }
     else
     {
         buchungPopUpFrage.close();
+        QString selectedBuchung = comboBoxBuchung->currentText();
         QDialog buchungPopUpNeu;
         buchungPopUpNeu.setWindowTitle("Buchung hinzufügen");
         buchungPopUpNeu.setWindowFlag(Qt::Popup);
@@ -1165,15 +1208,49 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
             }
             if(idExists==true)
             {
-                buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000");
-                trav = std::make_shared<Travel>(rid,kid);
-                ReiseAgentur.addBuchung(buchung);
-                ReiseAgentur.addTravel(trav);
-                for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+                if(selectedBuchung.contains("Flugbuchung"))
                 {
-                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    std::shared_ptr<FlightBooking> buchung;
+                    buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000");
+                    trav = std::make_shared<Travel>(rid,kid);
+                    ReiseAgentur.addBuchung(buchung);
+                    ReiseAgentur.addTravel(trav);
+                    for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
                     {
-                        ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                        if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                        {
+                            ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                        }
+                    }
+                }
+                else if(selectedBuchung.contains("Hotelreservierung"))
+                {
+                    std::shared_ptr<HotelBooking> buchung;
+                    buchung = std::make_shared<HotelBooking>(bid, preis, startDatum, endDatum, "hotelTest", "stadtTest", "EZ", rid, "0.000","0.000");
+                    trav = std::make_shared<Travel>(rid,kid);
+                    ReiseAgentur.addBuchung(buchung);
+                    ReiseAgentur.addTravel(trav);
+                    for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+                    {
+                        if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                        {
+                            ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                        }
+                    }
+                }
+                else if(selectedBuchung.contains("Mietwagenreservierung"))
+                {
+                    std::shared_ptr<RentalCarReservation> buchung;
+                    buchung = std::make_shared<RentalCarReservation>(bid, preis, startDatum, endDatum, "pickupTestLoc", "returnTestLoc", "firmaTest", "CCAR", rid, "0.000", "0.000", "0.000","0.0000");
+                    trav = std::make_shared<Travel>(rid,kid);
+                    ReiseAgentur.addBuchung(buchung);
+                    ReiseAgentur.addTravel(trav);
+                    for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+                    {
+                        if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                        {
+                            ReiseAgentur.getAllTravels()[i]->addBooking(buchung);
+                        }
                     }
                 }
             }
