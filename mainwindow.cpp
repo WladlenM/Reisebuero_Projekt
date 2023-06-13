@@ -69,7 +69,7 @@ QString MainWindow::readJsonFile(QString fileName)
     std::string text = ReiseAgentur.readFile(fileName);
     QString msgFileText = QString::fromStdString(text);
 
-    /*std::string dateiName="C:\\Users\\wladl\\Documents\\Prog2\\Praktikum\\Praktikum2\\iatacodes.json";
+    std::string dateiName="C:\\Users\\wladl\\Documents\\Prog2\\Praktikum\\Praktikum2\\iatacode.txt";
 
     std::ifstream einlesen(dateiName);
 
@@ -94,9 +94,9 @@ QString MainWindow::readJsonFile(QString fileName)
         std::string iata_code;
         iata_code= attribute["iata_code"].get<std::string>();
 
-        Airport *airport = new Airport(name, iso_country, municipality, iata_code);
+        std::shared_ptr<Airport> airport = std::make_shared<Airport>(name, iso_country, municipality, iata_code);
         ReiseAgentur.addAirpots(airport);
-    }*/
+    }
 
     return msgFileText;
 }
