@@ -91,6 +91,10 @@ public:
     QLineEdit *lineEditFlugsitz;
     QLabel *label_21;
     QLabel *labelKarteUrl;
+    QLineEdit *lineEditStartflughafen;
+    QLabel *label_24;
+    QLineEdit *lineEditEndflughafen;
+    QLabel *label_25;
     QWidget *tabHotelbuchung;
     QHBoxLayout *horizontalLayout_6;
     QFormLayout *formLayout_4;
@@ -346,32 +350,54 @@ public:
         label_8 = new QLabel(tabFlugbuchung);
         label_8->setObjectName("label_8");
 
-        formLayout_3->setWidget(2, QFormLayout::LabelRole, label_8);
+        formLayout_3->setWidget(3, QFormLayout::LabelRole, label_8);
 
         lineEditbisFlug = new QLineEdit(tabFlugbuchung);
         lineEditbisFlug->setObjectName("lineEditbisFlug");
 
-        formLayout_3->setWidget(2, QFormLayout::FieldRole, lineEditbisFlug);
+        formLayout_3->setWidget(3, QFormLayout::FieldRole, lineEditbisFlug);
 
         label_9 = new QLabel(tabFlugbuchung);
         label_9->setObjectName("label_9");
 
-        formLayout_3->setWidget(3, QFormLayout::LabelRole, label_9);
+        formLayout_3->setWidget(5, QFormLayout::LabelRole, label_9);
 
         lineEditFlugsitz = new QLineEdit(tabFlugbuchung);
         lineEditFlugsitz->setObjectName("lineEditFlugsitz");
 
-        formLayout_3->setWidget(3, QFormLayout::FieldRole, lineEditFlugsitz);
+        formLayout_3->setWidget(5, QFormLayout::FieldRole, lineEditFlugsitz);
 
         label_21 = new QLabel(tabFlugbuchung);
         label_21->setObjectName("label_21");
 
-        formLayout_3->setWidget(4, QFormLayout::LabelRole, label_21);
+        formLayout_3->setWidget(6, QFormLayout::LabelRole, label_21);
 
         labelKarteUrl = new QLabel(tabFlugbuchung);
         labelKarteUrl->setObjectName("labelKarteUrl");
 
-        formLayout_3->setWidget(4, QFormLayout::FieldRole, labelKarteUrl);
+        formLayout_3->setWidget(6, QFormLayout::FieldRole, labelKarteUrl);
+
+        lineEditStartflughafen = new QLineEdit(tabFlugbuchung);
+        lineEditStartflughafen->setObjectName("lineEditStartflughafen");
+        lineEditStartflughafen->setReadOnly(true);
+
+        formLayout_3->setWidget(2, QFormLayout::FieldRole, lineEditStartflughafen);
+
+        label_24 = new QLabel(tabFlugbuchung);
+        label_24->setObjectName("label_24");
+
+        formLayout_3->setWidget(2, QFormLayout::LabelRole, label_24);
+
+        lineEditEndflughafen = new QLineEdit(tabFlugbuchung);
+        lineEditEndflughafen->setObjectName("lineEditEndflughafen");
+        lineEditEndflughafen->setReadOnly(true);
+
+        formLayout_3->setWidget(4, QFormLayout::FieldRole, lineEditEndflughafen);
+
+        label_25 = new QLabel(tabFlugbuchung);
+        label_25->setObjectName("label_25");
+
+        formLayout_3->setWidget(4, QFormLayout::LabelRole, label_25);
 
 
         verticalLayout_4->addLayout(formLayout_3);
@@ -539,7 +565,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidgetBuchungTyp->setCurrentIndex(2);
+        tabWidgetBuchungTyp->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -572,6 +598,8 @@ public:
         label_9->setText(QCoreApplication::translate("MainWindow", "Buchungs Klasse", nullptr));
         label_21->setText(QCoreApplication::translate("MainWindow", "Karte", nullptr));
         labelKarteUrl->setText(QString());
+        label_24->setText(QCoreApplication::translate("MainWindow", "Startflughafen", nullptr));
+        label_25->setText(QCoreApplication::translate("MainWindow", "Endflughafen", nullptr));
         tabWidgetBuchungTyp->setTabText(tabWidgetBuchungTyp->indexOf(tabFlugbuchung), QCoreApplication::translate("MainWindow", "Flugbuchung", nullptr));
         label_10->setText(QCoreApplication::translate("MainWindow", "Hotelname", nullptr));
         label_11->setText(QCoreApplication::translate("MainWindow", "Stadt", nullptr));

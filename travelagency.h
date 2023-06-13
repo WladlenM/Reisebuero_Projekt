@@ -39,6 +39,7 @@ public:
     void addBuchung(std::shared_ptr<Booking>);
     void addTravel(std::shared_ptr<Travel>);
     void saveToJSON(std::string button);
+    std::vector<std::shared_ptr<Airport> > getAirpots() const;
 };
 
 #endif // TRAVELAGENCY_H

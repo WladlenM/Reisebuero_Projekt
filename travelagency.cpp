@@ -105,6 +105,11 @@ void TravelAgency::setBookings(const std::vector<std::shared_ptr<Booking>> &newB
     bookings = newBookings;
 }
 
+std::vector<std::shared_ptr<Airport> > TravelAgency::getAirpots() const
+{
+    return airpots;
+}
+
 TravelAgency::~TravelAgency()
 {
     /*for(int i = 0;i<(int)bookings.size();i++)

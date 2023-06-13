@@ -22,6 +22,7 @@
 #include <QVariant>
 #include <QJsonArray>
 #include <QComboBox>
+#include <QPalette>
 
 //using namespace nlohmann;
 
@@ -495,10 +496,48 @@ void MainWindow::on_tableWidgetBuchungen_itemDoubleClicked(QTableWidgetItem *ite
         ui->lineEditFlugzeug->setText(airplane);
 
         QString fromDest = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[0]);
-        ui->lineEditvonFlug->setText(fromDest);
+        ui->lineEditvonFlug->setText(fromDest);        
 
         QString toDest = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[1]);
         ui->lineEditbisFlug->setText(toDest);
+
+        QString toAirport;
+        QString fromAirport;
+        bool statusStartairport = false;
+        bool statusEndairport = false;
+        QPalette colourStart = ui->lineEditStartflughafen->palette();
+        QPalette colourEnd = ui->lineEditEndflughafen->palette();
+        for(int i=0;i<ReiseAgentur.getAirpots().size();i++)
+        {
+            if(fromDest==QString::fromStdString(ReiseAgentur.getAirpots()[i]->getIata_code()))
+            {
+                fromAirport=QString::fromStdString(ReiseAgentur.getAirpots()[i]->getName());
+                ui->lineEditStartflughafen->setText(fromAirport);
+                statusStartairport=true;
+                colourStart.setColor(QPalette::Text, Qt::black);
+                ui->lineEditStartflughafen->setPalette(colourStart);
+            }
+            if(toDest==QString::fromStdString(ReiseAgentur.getAirpots()[i]->getIata_code()))
+            {
+                toAirport=QString::fromStdString(ReiseAgentur.getAirpots()[i]->getName());
+                ui->lineEditEndflughafen->setText(toAirport);
+                statusEndairport=true;
+                colourEnd.setColor(QPalette::Text, Qt::black);
+                ui->lineEditEndflughafen->setPalette(colourEnd);
+            }
+        }
+        if(statusStartairport==false)
+        {
+            ui->lineEditStartflughafen->setText("Ungültiger Iata-Code");
+            colourStart.setColor(QPalette::Text, Qt::red);
+                ui->lineEditStartflughafen->setPalette(colourStart);
+        }
+        if(statusEndairport==false)
+        {
+                ui->lineEditEndflughafen->setText("Ungültiger Iata-Code");
+                colourEnd.setColor(QPalette::Text, Qt::red);
+                ui->lineEditEndflughafen->setPalette(colourEnd);
+        }
 
         QString flugklasse = QString::fromStdString(ReiseAgentur.getAllTravels()[getIndex]->getTravelBookings()[row]->myType()[3]);
         ui->lineEditFlugsitz->setText(flugklasse);
