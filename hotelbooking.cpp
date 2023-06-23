@@ -1,8 +1,10 @@
 #include "hotelbooking.h"
 
-HotelBooking::HotelBooking(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string hotelname,std::string stadt,std::string raumTyp, long reiseId, std::string hotelLat, std::string hotelLongt)
+HotelBooking::HotelBooking(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string hotelname,std::string stadt,std::string raumTyp, long reiseId, std::string hotelLat, std::string hotelLongt,std::string xpredecorId1,std::string xpredecorId2)
 {
     id = ID;
+    predecorId1=xpredecorId1;
+    predecorId2=xpredecorId2;
     price = preis;
     fromDate = startDatum;
     toDate = endDatum;

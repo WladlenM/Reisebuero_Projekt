@@ -180,6 +180,25 @@ std::string TravelAgency::readFile(QString fileName)
                 fromDestLongt1=attribute["fromDestLongitude"].get<std::string>();
                 std::string ID1;
                 ID1 = attribute["id"].get<std::string>();
+                std::string predecorID1;
+                if(nullptr==attribute["predecessor1"])
+                {
+                    predecorID1="0";
+                }
+                else
+                {
+                    predecorID1=attribute["predecessor1"];
+                }
+                std::string predecorID2;
+
+                if(nullptr == attribute["predecessor2"])
+                {
+                    predecorID2="0";
+                }
+                else
+                {
+                    predecorID2 = attribute["predecessor2"];
+                }
                 long customerID1;
                 customerID1 = attribute["customerId"].get<long>();
                 std::string kundenName1;
@@ -217,7 +236,7 @@ std::string TravelAgency::readFile(QString fileName)
                     std::string intZeile = std::to_string(zeile);
                     throw std::runtime_error("Fehler: Attribut leer in Zeile " + intZeile);
                 }
-                std::shared_ptr<FlightBooking> FlugBuchung1 = std::make_shared<FlightBooking>(ID1,preis1,startDatum1,flugKrzl1_1,flugKrzl2_1,Fluglinie1,buchungsKlasse,endDatum1,travelId1, fromDestLoc1, fromDestLongt1, toDestLoc1, toDestLongt1);
+                std::shared_ptr<FlightBooking> FlugBuchung1 = std::make_shared<FlightBooking>(ID1,preis1,startDatum1,flugKrzl1_1,flugKrzl2_1,Fluglinie1,buchungsKlasse,endDatum1,travelId1, fromDestLoc1, fromDestLongt1, toDestLoc1, toDestLongt1, predecorID1, predecorID2);
                 bookings.push_back(FlugBuchung1);
 
                 //travel->addBooking(FlugBuchung1);
@@ -255,6 +274,25 @@ std::string TravelAgency::readFile(QString fileName)
                 startDatum1 = attribute["fromDate"].get<std::string>();
                 std::string ID1;
                 ID1 = attribute["id"].get<std::string>();
+                std::string predecorID1;
+                if(nullptr==attribute["predecessor1"])
+                {
+                    predecorID1="0";
+                }
+                else
+                {
+                    predecorID1=attribute["predecessor1"];
+                }
+                std::string predecorID2;
+
+                if(nullptr == attribute["predecessor2"])
+                {
+                    predecorID2="0";
+                }
+                else
+                {
+                    predecorID2 = attribute["predecessor2"];
+                }
                 std::string Abholort1;
                 Abholort1 = attribute["pickupLocation"].get<std::string>();
                 std::string pickupLoc1;
@@ -293,7 +331,7 @@ std::string TravelAgency::readFile(QString fileName)
                     throw std::runtime_error("Fehler: Attribut leer in Zeile " + intZeile);
                 }
 
-                std::shared_ptr<RentalCarReservation> AutoReservierung1 = std::make_shared<RentalCarReservation>(ID1,preis1,startDatum1,endDatum1,Abholort1,Rueckgabeort1,Firma1,vehicleClass,travelId1, pickupLoc1, pickupLongt1, returnLoc1, returnLongt1);
+                std::shared_ptr<RentalCarReservation> AutoReservierung1 = std::make_shared<RentalCarReservation>(ID1,preis1,startDatum1,endDatum1,Abholort1,Rueckgabeort1,Firma1,vehicleClass,travelId1, pickupLoc1, pickupLongt1, returnLoc1, returnLongt1, predecorID1, predecorID2);
                 bookings.push_back(AutoReservierung1);
 
                 std::shared_ptr<Travel> travel = findTravel(travelId1);
@@ -333,6 +371,25 @@ std::string TravelAgency::readFile(QString fileName)
                 hotelLongt1 = attribute["hotelLongitude"].get<std::string>();
                 std::string ID1;
                 ID1 = attribute["id"].get<std::string>();
+                std::string predecorID1;
+                if(nullptr==attribute["predecessor1"])
+                {
+                    predecorID1="0";
+                }
+                else
+                {
+                    predecorID1=attribute["predecessor1"];
+                }
+                std::string predecorID2;
+
+                if(nullptr == attribute["predecessor2"])
+                {
+                    predecorID2="0";
+                }
+                else
+                {
+                    predecorID2 = attribute["predecessor2"];
+                }
                 double preis1;
                 preis1 = attribute["price"].get<double>();
                 long customerID1;
@@ -361,7 +418,7 @@ std::string TravelAgency::readFile(QString fileName)
                     throw std::runtime_error("Fehler: Attribut leer in Zeile " + intZeile);
                 }
 
-                std::shared_ptr<HotelBooking> HotelReservierung1 = std::make_shared<HotelBooking>(ID1,preis1,startDatum1,endDatum1,hotelname1,stadt1,roomType,travelId1, hotelLoc1, hotelLongt1);
+                std::shared_ptr<HotelBooking> HotelReservierung1 = std::make_shared<HotelBooking>(ID1,preis1,startDatum1,endDatum1,hotelname1,stadt1,roomType,travelId1, hotelLoc1, hotelLongt1, predecorID1, predecorID2);
                 bookings.push_back(HotelReservierung1);
 
 

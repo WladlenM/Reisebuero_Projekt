@@ -13,7 +13,7 @@ private:
     std::string hotelLatitude;
     std::string hotelLongitude;
 public:
-    HotelBooking(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string hotelname,std::string stadt,std::string raumTyp, long reiseId, std::string hotelLat, std::string hotelLongt);
+    HotelBooking(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string hotelname,std::string stadt,std::string raumTyp, long reiseId, std::string hotelLat, std::string hotelLongt,std::string predecorId1,std::string predecorId2);
     ~HotelBooking();
 
     std::string showDetails();

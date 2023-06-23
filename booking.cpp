@@ -41,6 +41,16 @@ void Booking::setToDate(const std::string &newToDate)
     toDate = newToDate;
 }
 
+std::string Booking::getPredecorId1() const
+{
+    return predecorId1;
+}
+
+std::string Booking::getPredecorId2() const
+{
+    return predecorId2;
+}
+
 Booking::Booking()
 {
 

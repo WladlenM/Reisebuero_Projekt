@@ -1111,7 +1111,24 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
             if(selectedBuchung.contains("Flugbuchung"))
             {
                 std::shared_ptr<FlightBooking> buchung;
-                buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","airlineTest","W",endDatum,rid,"0.000","0.000","1.000","1.000");
+                std::string predecesor1="0";
+                std::string predecesor2="0";
+                for(int i=0;ReiseAgentur.getAllTravels().size();i++)
+                {
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        if(ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()>=1)
+                        {
+                            predecesor1 = ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getId();
+                            if(ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()>=2)
+                            {
+                                predecesor2 = ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-2]->getId();
+                            }
+                        }
+                        break;
+                    }
+                }
+                buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","airlineTest","W",endDatum,rid,"0.000","0.000","1.000","1.000",predecesor1,predecesor2);
                 ReiseAgentur.addBuchung(buchung);
 
                 for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
@@ -1125,7 +1142,24 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
             else if(selectedBuchung.contains("Hotelreservierung"))
             {
                 std::shared_ptr<HotelBooking> buchung;
-                buchung = std::make_shared<HotelBooking>(bid, preis, startDatum, endDatum, "hotelTest", "stadtTest", "EZ", rid, "0.000","0.000");
+                std::string predecesor1="0";
+                std::string predecesor2="0";
+                for(int i=0;ReiseAgentur.getAllTravels().size();i++)
+                {
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        if(ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()>=1)
+                        {
+                            predecesor1 = ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getId();
+                            if(ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()>=2)
+                            {
+                                predecesor2 = ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-2]->getId();
+                            }
+                        }
+                        break;
+                    }
+                }
+                buchung = std::make_shared<HotelBooking>(bid, preis, startDatum, endDatum, "hotelTest", "stadtTest", "EZ", rid, "0.000","0.000",predecesor1,predecesor2);
                 ReiseAgentur.addBuchung(buchung);
 
                 for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
@@ -1139,7 +1173,24 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
             else if(selectedBuchung.contains("Mietwagenreservierung"))
             {
                 std::shared_ptr<RentalCarReservation> buchung;
-                buchung = std::make_shared<RentalCarReservation>(bid, preis, startDatum, endDatum, "pickupTestLoc", "returnTestLoc", "firmaTest", "CCAR", rid, "0.000", "0.000", "0.000","0.0000");
+                std::string predecesor1="0";
+                std::string predecesor2="0";
+                for(int i=0;ReiseAgentur.getAllTravels().size();i++)
+                {
+                    if(ReiseAgentur.getAllTravels()[i]->getId()==rid)
+                    {
+                        if(ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()>=1)
+                        {
+                            predecesor1 = ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-1]->getId();
+                            if(ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()>=2)
+                            {
+                                predecesor2 = ReiseAgentur.getAllTravels()[i]->getTravelBookings()[ReiseAgentur.getAllTravels()[i]->getTravelBookings().size()-2]->getId();
+                            }
+                        }
+                        break;
+                    }
+                }
+                buchung = std::make_shared<RentalCarReservation>(bid, preis, startDatum, endDatum, "pickupTestLoc", "returnTestLoc", "firmaTest", "CCAR", rid, "0.000", "0.000", "0.000","0.0000",predecesor1,predecesor2);
                 ReiseAgentur.addBuchung(buchung);
 
                 for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
@@ -1250,7 +1301,7 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
                 if(selectedBuchung.contains("Flugbuchung"))
                 {
                     std::shared_ptr<FlightBooking> buchung;
-                    buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000");
+                    buchung = std::make_shared<FlightBooking>(bid,preis,startDatum,"XXX","XXX","test","W",endDatum,rid,"0.000","0.000","1.000","1.000","0","0");
                     trav = std::make_shared<Travel>(rid,kid);
                     ReiseAgentur.addBuchung(buchung);
                     ReiseAgentur.addTravel(trav);
@@ -1265,7 +1316,7 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
                 else if(selectedBuchung.contains("Hotelreservierung"))
                 {
                     std::shared_ptr<HotelBooking> buchung;
-                    buchung = std::make_shared<HotelBooking>(bid, preis, startDatum, endDatum, "hotelTest", "stadtTest", "EZ", rid, "0.000","0.000");
+                    buchung = std::make_shared<HotelBooking>(bid, preis, startDatum, endDatum, "hotelTest", "stadtTest", "EZ", rid, "0.000","0.000","0","0");
                     trav = std::make_shared<Travel>(rid,kid);
                     ReiseAgentur.addBuchung(buchung);
                     ReiseAgentur.addTravel(trav);
@@ -1280,7 +1331,7 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
                 else if(selectedBuchung.contains("Mietwagenreservierung"))
                 {
                     std::shared_ptr<RentalCarReservation> buchung;
-                    buchung = std::make_shared<RentalCarReservation>(bid, preis, startDatum, endDatum, "pickupTestLoc", "returnTestLoc", "firmaTest", "CCAR", rid, "0.000", "0.000", "0.000","0.0000");
+                    buchung = std::make_shared<RentalCarReservation>(bid, preis, startDatum, endDatum, "pickupTestLoc", "returnTestLoc", "firmaTest", "CCAR", rid, "0.000", "0.000", "1.000","1.000","0","0");
                     trav = std::make_shared<Travel>(rid,kid);
                     ReiseAgentur.addBuchung(buchung);
                     ReiseAgentur.addTravel(trav);
@@ -1300,7 +1351,7 @@ void MainWindow::on_actionBuchung_hinzuf_gen_triggered()
                 msgBox.setText(error);
                 msgBox.exec();
             }
-        }
+        }        
     }
 }
 

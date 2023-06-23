@@ -15,7 +15,7 @@ private:
     std::string company;
     std::string vehicleClass;
 public:
-    RentalCarReservation(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string Abholstation,std::string Rueckgabestation,std::string Firmenname, std::string autoKlasse, long reiseId, std::string pickupLoc, std::string pickupLongt, std::string returnLoc, std::string returnLongt);
+    RentalCarReservation(std::string ID,double preis,std::string startDatum,std::string endDatum,std::string Abholstation,std::string Rueckgabestation,std::string Firmenname, std::string autoKlasse, long reiseId, std::string pickupLoc, std::string pickupLongt, std::string returnLoc, std::string returnLongt,std::string predecorId1,std::string predecorId2);
     ~RentalCarReservation();
     std::string showDetails();
     std::vector<std::string> myType();

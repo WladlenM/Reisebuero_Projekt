@@ -10,6 +10,8 @@ class Booking
 {
 protected:
     std::string id;
+    std::string predecorId1;
+    std::string predecorId2;
     double price;
     std::string fromDate;
     std::string toDate;
@@ -30,6 +32,8 @@ public:
     void setPrice(double newPrice);
     void setFromDate(const std::string &newFromDate);
     void setToDate(const std::string &newToDate);
+    std::string getPredecorId1() const;
+    std::string getPredecorId2() const;
 };
 
 #endif // BOOKING_H
