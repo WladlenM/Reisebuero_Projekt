@@ -17,7 +17,7 @@ private:
     std::string airline;
     std::string bookingClass;
 public:
-    FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie,std::string bookingKlasse,std::string toDate, long reiseId, std::string vonDestLoc, std::string vonDestLongt, std::string zuDestLoc, std::string zuDestLongt,std::string predecorId1,std::string predecorId2);
+    FlightBooking(std::string ID,double preis,std::string startDatum,std::string flugKrzl1,std::string flugKrzl2,std::string Fluglinie,std::string bookingKlasse,std::string toDate, long reiseId, std::string vonDestLoc, std::string vonDestLongt, std::string zuDestLoc, std::string zuDestLongt,std::string xpredecorID1,std::string xpredecorID2);
     ~FlightBooking();
     std::string showDetails();
     std::vector<std::string> myType();

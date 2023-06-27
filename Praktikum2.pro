@@ -14,6 +14,7 @@ SOURCES += \
     attributebookings.cpp \
     booking.cpp \
     customer.cpp \
+    digraph.cpp \
     flightbooking.cpp \
     hotelbooking.cpp \
     main.cpp \
@@ -27,7 +28,9 @@ HEADERS += \
     attributebookings.h \
     booking.h \
     customer.h \
+    digraph.h \
     flightbooking.h \
+    graph.h \
     hotelbooking.h \
     json.hpp \
     mainwindow.h \

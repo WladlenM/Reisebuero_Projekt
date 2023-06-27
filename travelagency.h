@@ -40,6 +40,7 @@ public:
     void addTravel(std::shared_ptr<Travel>);
     void saveToJSON(std::string button);
     std::vector<std::shared_ptr<Airport> > getAirpots() const;
+    std::vector<std::pair<std::shared_ptr<Booking>,QString>> abcAnalyse(long custId, QString typ);
 };
 
 #endif // TRAVELAGENCY_H

@@ -41,6 +41,8 @@ public:
     QAction *actionKunde_hinzuf_gen;
     QAction *actionBuchung_hinzuf_gen;
     QAction *actionSpeichern;
+    QAction *actionPruefergebnisse;
+    QAction *actionABC_Analyse;
     QWidget *centralwidget;
     QHBoxLayout *horizontalLayout_8;
     QHBoxLayout *horizontalLayout_4;
@@ -144,6 +146,10 @@ public:
         actionBuchung_hinzuf_gen->setObjectName("actionBuchung_hinzuf_gen");
         actionSpeichern = new QAction(MainWindow);
         actionSpeichern->setObjectName("actionSpeichern");
+        actionPruefergebnisse = new QAction(MainWindow);
+        actionPruefergebnisse->setObjectName("actionPruefergebnisse");
+        actionABC_Analyse = new QAction(MainWindow);
+        actionABC_Analyse->setObjectName("actionABC_Analyse");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         horizontalLayout_8 = new QHBoxLayout(centralwidget);
@@ -559,6 +565,8 @@ public:
         menubar->addAction(menuKunde->menuAction());
         menuDatei->addAction(actionEinlesen_2);
         menuDatei->addAction(actionSpeichern);
+        menuDatei->addAction(actionPruefergebnisse);
+        menuDatei->addAction(actionABC_Analyse);
         menuKunde->addAction(actionSuchen);
         menuKunde->addAction(actionKunde_hinzuf_gen);
         menuKunde->addAction(actionBuchung_hinzuf_gen);
@@ -580,6 +588,8 @@ public:
         actionKunde_hinzuf_gen->setText(QCoreApplication::translate("MainWindow", "Kunde hinzuf\303\274gen", nullptr));
         actionBuchung_hinzuf_gen->setText(QCoreApplication::translate("MainWindow", "Buchung hinzuf\303\274gen", nullptr));
         actionSpeichern->setText(QCoreApplication::translate("MainWindow", "Speichern", nullptr));
+        actionPruefergebnisse->setText(QCoreApplication::translate("MainWindow", "Pruefergebnisse", nullptr));
+        actionABC_Analyse->setText(QCoreApplication::translate("MainWindow", "ABC-Analyse", nullptr));
         groupBoxKunde->setTitle(QCoreApplication::translate("MainWindow", "Kund*in", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "ID", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Name", nullptr));

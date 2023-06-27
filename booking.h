@@ -34,6 +34,7 @@ public:
     void setToDate(const std::string &newToDate);
     std::string getPredecorId1() const;
     std::string getPredecorId2() const;
+
 };
 
 #endif // BOOKING_H

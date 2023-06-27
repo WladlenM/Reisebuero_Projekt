@@ -51,6 +51,10 @@ private slots:
 
     void on_actionSpeichern_triggered();
 
+    void on_actionPruefergebnisse_triggered();
+
+    void on_actionABC_Analyse_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

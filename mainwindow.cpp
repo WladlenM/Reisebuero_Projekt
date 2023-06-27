@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QComboBox>
 #include <QPalette>
+#include <QStandardItem>
 
 //using namespace nlohmann;
 
@@ -1645,5 +1646,145 @@ void MainWindow::on_actionSpeichern_triggered()
             file.close();
         }
     }
+}
+
+
+void MainWindow::on_actionPruefergebnisse_triggered()
+{
+    QDialog pruefergebnisse;
+    pruefergebnisse.setWindowTitle("Prüfergebnisse");
+        pruefergebnisse.setWindowFlag(Qt::Popup);
+
+    int zeilen = ReiseAgentur.getAllTravels().size();
+
+    QTableWidget* ergebnisseTableWidget = new QTableWidget(zeilen,5,&pruefergebnisse);
+    ergebnisseTableWidget->setHorizontalHeaderLabels({"Reise","Fehlendes Hotel","Überflüssiges Hotel","Überflüssiger Mietwagen","Kein Roundtrip"});
+
+    for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+    {
+        ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem(QString::number(ReiseAgentur.getAllTravels()[i]->getId())));
+        ergebnisseTableWidget->setItem(i,4,new QTableWidgetItem(QString::number(ReiseAgentur.getAllTravels()[i]->checkRoundtrip())));
+        ergebnisseTableWidget->setItem(i,1,new QTableWidgetItem(QString::number(ReiseAgentur.getAllTravels()[i]->checkEnoughHotels())));
+        ergebnisseTableWidget->setItem(i,2,new QTableWidgetItem(QString::number(ReiseAgentur.getAllTravels()[i]->checkNoUselessHotels())));
+        ergebnisseTableWidget->setItem(i,3,new QTableWidgetItem(QString::number(ReiseAgentur.getAllTravels()[i]->checkNoUselessRentalCars())));
+    }
+
+        QVBoxLayout *layout = new QVBoxLayout(&pruefergebnisse);
+    layout->addWidget(ergebnisseTableWidget);
+
+        pruefergebnisse.exec();
+}
+
+
+void MainWindow::on_actionABC_Analyse_triggered()
+{
+        QDialog abc;
+        abc.setWindowTitle("ABC-Analyse");
+            abc.setWindowFlag(Qt::Popup);
+
+        QSpinBox *kundId = new QSpinBox(&abc);
+            QLabel *label = new QLabel(&abc);
+        label->setText("KundenId eingeben: ");
+        QPushButton* buttonSuchen= new QPushButton("Suchen", &abc);
+        QPushButton* buttonSchliessen = new QPushButton("Schließen", &abc);
+
+        QObject::connect(buttonSuchen, &QPushButton::clicked, &abc, &QDialog::accept);
+        QObject::connect(buttonSchliessen, &QPushButton::clicked, &abc, &QDialog::close);
+        QFormLayout* layoutneu = new QFormLayout(&abc);
+        layoutneu->addRow(label,kundId);
+        layoutneu->addRow(buttonSuchen,buttonSchliessen);
+
+        if(abc.exec()==QDialog::Accepted)
+        {
+        QDialog abcAusgabe;
+        abcAusgabe.setWindowTitle("ABC-Analyse");
+            abcAusgabe.setWindowFlag(Qt::Popup);
+
+            long kid = kundId->value();
+            std::vector<std::pair<std::shared_ptr<Booking>,QString>> abc = ReiseAgentur.abcAnalyse(kid,"A");
+
+            int zeilen = abc.size();
+
+            QTableWidget* ergebnisseTableWidget = new QTableWidget(zeilen,5,&abcAusgabe);
+            ergebnisseTableWidget->setHorizontalHeaderLabels({"Buchungstyp","Preis","Prozent","kumuliert","Klasse"});
+            int i=0;
+            double total=0.0;
+            double prozent=0.0;
+
+            for(auto &buchung : abc)
+            {
+                total = total + buchung.first->getPrice();
+            }
+
+            for(auto &item : abc)
+            {
+            std::string typstd = item.first->showDetails();
+            QString qtyp = QString::fromStdString(typstd);
+                if(qtyp.contains("Flugbuchung"))
+                {
+                    ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem("Flugbuchung"));
+                    ergebnisseTableWidget->setItem(i,1,new QTableWidgetItem(QString::number(item.first->getPrice())));
+                    ergebnisseTableWidget->setItem(i,2,new QTableWidgetItem(QString::number((item.first->getPrice()/total)*100)));
+                    prozent = prozent + (item.first->getPrice()/total)*100;
+                    ergebnisseTableWidget->setItem(i,3,new QTableWidgetItem(QString::number(prozent)));
+                    ergebnisseTableWidget->setItem(i,4,new QTableWidgetItem(item.second));
+
+                }
+                else if(qtyp.contains("Hotelreservierung"))
+                {
+                    ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem("Hotelreservierung"));
+                    ergebnisseTableWidget->setItem(i,1,new QTableWidgetItem(QString::number(item.first->getPrice())));
+                    ergebnisseTableWidget->setItem(i,2,new QTableWidgetItem(QString::number((item.first->getPrice()/total)*100)));
+                    prozent = prozent + (item.first->getPrice()/total)*100;
+                    ergebnisseTableWidget->setItem(i,3,new QTableWidgetItem(QString::number(prozent)));
+                    ergebnisseTableWidget->setItem(i,4,new QTableWidgetItem(item.second));
+
+                }
+                else if(qtyp.contains("Mietwagenreservierung"))
+                {
+                    ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem("Mietwagenreservierung"));
+                    ergebnisseTableWidget->setItem(i,1,new QTableWidgetItem(QString::number(item.first->getPrice())));
+                    ergebnisseTableWidget->setItem(i,2,new QTableWidgetItem(QString::number((item.first->getPrice()/total)*100)));
+                    prozent = prozent + (item.first->getPrice()/total)*100;
+                    ergebnisseTableWidget->setItem(i,3,new QTableWidgetItem(QString::number(prozent)));
+                    ergebnisseTableWidget->setItem(i,4,new QTableWidgetItem(item.second));
+
+                }
+                i++;
+            }
+
+            int rowCount = ergebnisseTableWidget->model()->rowCount();
+            int columnCount = ergebnisseTableWidget->model()->columnCount();
+            for(int row=0;row<rowCount;++row)
+            {
+                for(int column=0;column<columnCount;++column)
+                {
+                    QTableWidgetItem* itemv1 = ergebnisseTableWidget->item(row,4);
+                    QTableWidgetItem* itemv2 = ergebnisseTableWidget->item(row,column);
+                    if(itemv1->text()=="A")
+                    {
+                        itemv2->setBackground(Qt::green);
+                    }
+                    if(itemv1->text()=="B")
+                    {
+                        itemv2->setBackground(Qt::yellow);
+                    }
+                    if(itemv1->text()=="C")
+                    {
+                        itemv2->setBackground(Qt::red);
+                    }
+                }
+            }
+
+            QVBoxLayout *layout = new QVBoxLayout(&abcAusgabe);
+            layout->addWidget(ergebnisseTableWidget);
+
+            abcAusgabe.exec();
+        }
+        else
+        {
+            abc.close();
+        }
+
 }
 

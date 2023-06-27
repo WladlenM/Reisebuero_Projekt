@@ -110,6 +110,78 @@ std::vector<std::shared_ptr<Airport> > TravelAgency::getAirpots() const
     return airpots;
 }
 
+std::vector<std::pair<std::shared_ptr<Booking>,QString>> TravelAgency::abcAnalyse(long custId, QString typ)
+{
+    double total = 0.0;
+    std::vector<std::shared_ptr<Booking>> kundBuchung;
+    for(auto& trav : allTravels)
+    {
+        if(trav->getCustomerId()==custId)
+        {
+            for(auto &buchung : trav->getTravelBookings())
+            {
+                kundBuchung.push_back(buchung);
+                total = total + buchung->getPrice();
+            }
+        }
+    }
+
+    std::sort(kundBuchung.begin(),kundBuchung.end(),[](std::shared_ptr<Booking>& a, std::shared_ptr<Booking>& b){return a->getPrice()>b->getPrice();});
+
+    std::vector<double> prozente;
+    for(int i=0;i<kundBuchung.size();i++)
+    {
+        double proz = (kundBuchung[i]->getPrice()/total)*100;
+        prozente.push_back(proz);
+    }
+
+    std::vector<std::pair<std::shared_ptr<Booking>,QString>> grenze;
+    double tresholdB = total * 0.8;
+    double tresholdC = total * 0.9;
+    double preis=0.0;
+    int i=0;
+
+    for(auto &buchung : kundBuchung)
+    {
+        preis = preis+buchung->getPrice();
+        if(preis>=tresholdC)
+        {
+            std::cout << "Buchungspreis " << buchung->getPrice() << " gehoert zu Kategorie C" << std::endl;
+            std::pair<std::shared_ptr<Booking>,QString> paar = std::make_pair<>(kundBuchung[i],"C");
+            grenze.push_back(paar);
+        }
+        else if((preis>=tresholdB))
+        {
+            std::cout << "Buchungspreis " << buchung->getPrice() << " gehoert zu Kategorie B" << std::endl;
+            std::pair<std::shared_ptr<Booking>,QString> paar = std::make_pair<>(kundBuchung[i],"B");
+            grenze.push_back(paar);
+        }
+        else
+        {
+            std::cout << "Buchungspreis " << buchung->getPrice() << " gehoert zu Kategorie A" << std::endl;
+            std::pair<std::shared_ptr<Booking>,QString> paar = std::make_pair<>(kundBuchung[i],"A");
+            grenze.push_back(paar);
+        }
+        i++;
+    }
+
+    /*std::vector<double> prozente;
+    for(int i=0;i<kundBuchung.size();i++)
+    {
+        double proz = (kundBuchung[i]->getPrice()/total)*100;
+        prozente.push_back(proz);
+    }*/
+
+    //std::vector<std::pair<std::shared_ptr<Booking>,double>> grenze;
+    /*for(int i = 0;i<prozente.size();i++)
+    {
+
+    }*/
+
+
+    return grenze;
+}
+
 TravelAgency::~TravelAgency()
 {
     /*for(int i = 0;i<(int)bookings.size();i++)
@@ -180,6 +252,17 @@ std::string TravelAgency::readFile(QString fileName)
                 fromDestLongt1=attribute["fromDestLongitude"].get<std::string>();
                 std::string ID1;
                 ID1 = attribute["id"].get<std::string>();
+                /*std::vector<std::string> predecessoren;
+                std::string predecorID1 = attribute.value("predecessor1","0");
+                std::string predecorID2 = attribute.value("predecessor2","0");
+                if(predecorID1!="0")
+                {
+                    predecessoren.push_back(predecorID1);
+                }
+                if(predecorID2!="0")
+                {
+                    predecessoren.push_back(predecorID2);
+                }*/
                 std::string predecorID1;
                 if(nullptr==attribute["predecessor1"])
                 {
@@ -190,7 +273,6 @@ std::string TravelAgency::readFile(QString fileName)
                     predecorID1=attribute["predecessor1"];
                 }
                 std::string predecorID2;
-
                 if(nullptr == attribute["predecessor2"])
                 {
                     predecorID2="0";
@@ -236,7 +318,7 @@ std::string TravelAgency::readFile(QString fileName)
                     std::string intZeile = std::to_string(zeile);
                     throw std::runtime_error("Fehler: Attribut leer in Zeile " + intZeile);
                 }
-                std::shared_ptr<FlightBooking> FlugBuchung1 = std::make_shared<FlightBooking>(ID1,preis1,startDatum1,flugKrzl1_1,flugKrzl2_1,Fluglinie1,buchungsKlasse,endDatum1,travelId1, fromDestLoc1, fromDestLongt1, toDestLoc1, toDestLongt1, predecorID1, predecorID2);
+                std::shared_ptr<FlightBooking> FlugBuchung1 = std::make_shared<FlightBooking>(ID1,preis1,startDatum1,flugKrzl1_1,flugKrzl2_1,Fluglinie1,buchungsKlasse,endDatum1,travelId1, fromDestLoc1, fromDestLongt1, toDestLoc1, toDestLongt1,predecorID1,predecorID2);
                 bookings.push_back(FlugBuchung1);
 
                 //travel->addBooking(FlugBuchung1);
@@ -250,7 +332,14 @@ std::string TravelAgency::readFile(QString fileName)
                     allTravels.push_back(travel);
 
                 }
-                allTravels.at(allTravels.size()-1)->addBooking(FlugBuchung1);
+                for(int i=0;i<allTravels.size();i++)
+                {
+                    if(allTravels[i]->getId()==travelId1)
+                    {
+                        allTravels.at(i)->addBooking(FlugBuchung1);
+                    }
+                }
+                //allTravels.at(allTravels.size()-1)->addBooking(FlugBuchung1);
 
                 std::shared_ptr<Customer> customer;
                 customer = findCustomer(customerID1);
@@ -284,7 +373,6 @@ std::string TravelAgency::readFile(QString fileName)
                     predecorID1=attribute["predecessor1"];
                 }
                 std::string predecorID2;
-
                 if(nullptr == attribute["predecessor2"])
                 {
                     predecorID2="0";
@@ -293,6 +381,23 @@ std::string TravelAgency::readFile(QString fileName)
                 {
                     predecorID2 = attribute["predecessor2"];
                 }
+                /*if(nullptr==attribute["predecessor1"])
+                {
+                    predecorID1="0";
+                }
+                else
+                {
+                    predecorID1=attribute["predecessor1"];
+                }*/
+
+                /*if(nullptr == attribute["predecessor2"])
+                {
+                    predecorID2="0";
+                }
+                else
+                {
+                    predecorID2 = attribute["predecessor2"];
+                }*/
                 std::string Abholort1;
                 Abholort1 = attribute["pickupLocation"].get<std::string>();
                 std::string pickupLoc1;
@@ -331,8 +436,9 @@ std::string TravelAgency::readFile(QString fileName)
                     throw std::runtime_error("Fehler: Attribut leer in Zeile " + intZeile);
                 }
 
-                std::shared_ptr<RentalCarReservation> AutoReservierung1 = std::make_shared<RentalCarReservation>(ID1,preis1,startDatum1,endDatum1,Abholort1,Rueckgabeort1,Firma1,vehicleClass,travelId1, pickupLoc1, pickupLongt1, returnLoc1, returnLongt1, predecorID1, predecorID2);
+                std::shared_ptr<RentalCarReservation> AutoReservierung1 = std::make_shared<RentalCarReservation>(ID1,preis1,startDatum1,endDatum1,Abholort1,Rueckgabeort1,Firma1,vehicleClass,travelId1, pickupLoc1, pickupLongt1, returnLoc1, returnLongt1,predecorID1,predecorID2);
                 bookings.push_back(AutoReservierung1);
+
 
                 std::shared_ptr<Travel> travel = findTravel(travelId1);
                 if(travel==nullptr)
@@ -342,7 +448,14 @@ std::string TravelAgency::readFile(QString fileName)
                     //travel->addBooking(AutoReservierung1);
                 }
 
-                allTravels.at(allTravels.size()-1)->addBooking(AutoReservierung1);
+                for(int i=0;i<allTravels.size();i++)
+                {
+                    if(allTravels[i]->getId()==travelId1)
+                    {
+                        allTravels.at(i)->addBooking(AutoReservierung1);
+                    }
+                }
+                //allTravels.at(allTravels.size()-1)->addBooking(AutoReservierung1);
 
                 std::shared_ptr<Customer> customer;
                 customer = findCustomer(customerID1);
@@ -371,6 +484,7 @@ std::string TravelAgency::readFile(QString fileName)
                 hotelLongt1 = attribute["hotelLongitude"].get<std::string>();
                 std::string ID1;
                 ID1 = attribute["id"].get<std::string>();
+                //std::vector<std::string> predecessoren;
                 std::string predecorID1;
                 if(nullptr==attribute["predecessor1"])
                 {
@@ -381,7 +495,6 @@ std::string TravelAgency::readFile(QString fileName)
                     predecorID1=attribute["predecessor1"];
                 }
                 std::string predecorID2;
-
                 if(nullptr == attribute["predecessor2"])
                 {
                     predecorID2="0";
@@ -390,6 +503,23 @@ std::string TravelAgency::readFile(QString fileName)
                 {
                     predecorID2 = attribute["predecessor2"];
                 }
+                /*if(nullptr==attribute["predecessor1"])
+                {
+                    predecorID1="0";
+                }
+                else
+                {
+                    predecorID1=attribute["predecessor1"];
+                }*/
+
+                /*if(nullptr == attribute["predecessor2"])
+                {
+                    predecorID2="0";
+                }
+                else
+                {
+                    predecorID2 = attribute["predecessor2"];
+                }*/
                 double preis1;
                 preis1 = attribute["price"].get<double>();
                 long customerID1;
@@ -418,7 +548,7 @@ std::string TravelAgency::readFile(QString fileName)
                     throw std::runtime_error("Fehler: Attribut leer in Zeile " + intZeile);
                 }
 
-                std::shared_ptr<HotelBooking> HotelReservierung1 = std::make_shared<HotelBooking>(ID1,preis1,startDatum1,endDatum1,hotelname1,stadt1,roomType,travelId1, hotelLoc1, hotelLongt1, predecorID1, predecorID2);
+                std::shared_ptr<HotelBooking> HotelReservierung1 = std::make_shared<HotelBooking>(ID1,preis1,startDatum1,endDatum1,hotelname1,stadt1,roomType,travelId1, hotelLoc1, hotelLongt1,predecorID1,predecorID2);
                 bookings.push_back(HotelReservierung1);
 
 
@@ -430,7 +560,14 @@ std::string TravelAgency::readFile(QString fileName)
                     //travel->addBooking(HotelReservierung1);
                 }
 
-                allTravels.at(allTravels.size()-1)->addBooking(HotelReservierung1);
+                for(int i=0;i<allTravels.size();i++)
+                {
+                    if(allTravels[i]->getId()==travelId1)
+                    {
+                        allTravels.at(i)->addBooking(HotelReservierung1);
+                    }
+                }
+                //allTravels.at(allTravels.size()-1)->addBooking(HotelReservierung1);
 
                 std::shared_ptr<Customer> customer;
                 customer = findCustomer(customerID1);
@@ -473,10 +610,57 @@ std::string TravelAgency::readFile(QString fileName)
             {
                 anzahlReisenId17++;
             }
-        }
+        }        
         std::string intToStringAnzahlReisenId1 = std::to_string(anzahlReisenId1);
         std::string intToStringAnzahlReisenId17 = std::to_string(anzahlReisenId17);
+        for(auto &trav : allTravels)
+        {
+            /*bool roundTrip;
+            bool enoughHotels;
+            bool noUselessHotels;
+            bool noUselessRental;*/
+            trav->reihenfolgeBuchung();
+            /*roundTrip = trav->checkRoundtrip();
+            enoughHotels = trav->checkEnoughHotels();
+            noUselessHotels = trav->checkNoUselessHotels();
+            noUselessRental = trav->checkNoUselessRentalCars();
+            std::cout << trav->getId() << std::endl;
+            if(roundTrip==false)
+            {
+                std::cout<< "Kein RoundTrip" << std::endl;
+            }
+            else
+            {
+                std::cout<< "RoundTrip" << std::endl;
+            }
 
+            if(enoughHotels==false)
+            {
+                std::cout<< "Reise nicht lueckenlos" << std::endl;
+            }
+            else
+            {
+                std::cout<< "Reise lueckenlos" << std::endl;
+            }
+
+            if(noUselessHotels==false)
+            {
+                std::cout<< "Reise hat ueberfluessige Hotel/Flug" << std::endl;
+            }
+            else
+            {
+                std::cout<< "Reise hat keine ueberfluessige Hotel/Flug" << std::endl;
+            }
+
+            if(noUselessRental==false)
+            {
+                std::cout<< "Reise hat ueberfluessige Mietwagenreservierung" << std::endl;
+            }
+            else
+            {
+                std::cout<< "Reise hat keine ueberfluessige Mietwagenreservierung" << std::endl;
+            }*/
+        }
 
         //std::cout<<"Es wurden " << flugbuchungen1 << " Flugbuchungen im Wert von " << flugbuchengenPreis1 << " Euro, " << Autobuchungen1 << " Mietwagenbuchungen im Wert von " << AutobuchungenPreis1 << " Euro, und " << Hotelreservierungen1 << " Hotelreservierungen im Wert von " << HotelreserbierungenPreis1 << " Euro angelegt.\n"<<std::endl;
         return "Es wurden " + intToStringFlugbuchungen + " Flugreservierungen, " + intToStringHotelreservierungen + " Hotelbuchungen und " + intToStringAutobuchungen + " Mietwagenbuchungen im Gesamtwert von " + intToStringGesamtwert + " Euro eingelesen. " + "Es wurden " + intToStringAnzahlReisen + " Reisen und " + intToStringAnzahlKunden + "Kunden angelegt. Der Kunde mit der ID 1 hat " + intToStringAnzahlReisenId1 + " Reisen gebucht. Zur Reise mit der ID 17 gehoeren " + intToStringAnzahlReisenId17 + " Buchungen.\n";

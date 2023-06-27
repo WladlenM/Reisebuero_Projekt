@@ -489,6 +489,8 @@
     </property>
     <addaction name="actionEinlesen_2"/>
     <addaction name="actionSpeichern"/>
+    <addaction name="actionPruefergebnisse"/>
+    <addaction name="actionABC_Analyse"/>
    </widget>
    <widget class="QMenu" name="menuKunde">
     <property name="title">
@@ -529,6 +531,16 @@
   <action name="actionSpeichern">
    <property name="text">
     <string>Speichern</string>
+   </property>
+  </action>
+  <action name="actionPruefergebnisse">
+   <property name="text">
+    <string>Pruefergebnisse</string>
+   </property>
+  </action>
+  <action name="actionABC_Analyse">
+   <property name="text">
+    <string>ABC-Analyse</string>
    </property>
   </action>
  </widget>

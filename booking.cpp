@@ -51,6 +51,7 @@ std::string Booking::getPredecorId2() const
     return predecorId2;
 }
 
+
 Booking::Booking()
 {
 
