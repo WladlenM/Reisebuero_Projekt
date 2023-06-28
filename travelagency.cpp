@@ -110,13 +110,15 @@ std::vector<std::shared_ptr<Airport> > TravelAgency::getAirpots() const
     return airpots;
 }
 
-std::vector<std::pair<std::shared_ptr<Booking>,QString>> TravelAgency::abcAnalyse(long custId, QString typ)
+std::vector<std::pair<std::shared_ptr<Customer>,QString>> TravelAgency::abcAnalyse()
 {
-    double total = 0.0;
+    double gesamtTotal = 0.0;
     std::vector<std::shared_ptr<Booking>> kundBuchung;
-    for(auto& trav : allTravels)
+    std::vector<std::pair<std::shared_ptr<Customer>,double>> kundTotal;
+    for(auto& cust : allCustomers)
     {
-        if(trav->getCustomerId()==custId)
+        double total = 0.0;
+        for(auto& trav : cust->getTravelList())
         {
             for(auto &buchung : trav->getTravelBookings())
             {
@@ -124,42 +126,49 @@ std::vector<std::pair<std::shared_ptr<Booking>,QString>> TravelAgency::abcAnalys
                 total = total + buchung->getPrice();
             }
         }
+        std::pair<std::shared_ptr<Customer>,double> paar = std::make_pair<>(cust,total);
+        kundTotal.push_back(paar);
     }
 
-    std::sort(kundBuchung.begin(),kundBuchung.end(),[](std::shared_ptr<Booking>& a, std::shared_ptr<Booking>& b){return a->getPrice()>b->getPrice();});
+    std::sort(kundTotal.begin(),kundTotal.end(),[](std::pair<std::shared_ptr<Customer>,double>& a, std::pair<std::shared_ptr<Customer>,double>& b){return a.second>b.second;});
 
-    std::vector<double> prozente;
+    for(auto& gtotal : kundTotal)
+    {
+        gesamtTotal = gesamtTotal+gtotal.second;
+    }
+
+    /*std::vector<double> prozente;
     for(int i=0;i<kundBuchung.size();i++)
     {
         double proz = (kundBuchung[i]->getPrice()/total)*100;
         prozente.push_back(proz);
-    }
+    }*/
 
-    std::vector<std::pair<std::shared_ptr<Booking>,QString>> grenze;
-    double tresholdB = total * 0.8;
-    double tresholdC = total * 0.9;
+    std::vector<std::pair<std::shared_ptr<Customer>,QString>> grenze;
+    double tresholdB = gesamtTotal * 0.8;
+    double tresholdC = gesamtTotal * 0.9;
     double preis=0.0;
     int i=0;
 
-    for(auto &buchung : kundBuchung)
+    for(auto &price : kundTotal)
     {
-        preis = preis+buchung->getPrice();
+        preis = preis + price.second;
         if(preis>=tresholdC)
         {
-            std::cout << "Buchungspreis " << buchung->getPrice() << " gehoert zu Kategorie C" << std::endl;
-            std::pair<std::shared_ptr<Booking>,QString> paar = std::make_pair<>(kundBuchung[i],"C");
+            std::cout << "KundenId " << price.first->getId() << " gehoert zu Kategorie C" << std::endl;
+            std::pair<std::shared_ptr<Customer>,QString> paar = std::make_pair<>(price.first,"C");
             grenze.push_back(paar);
         }
         else if((preis>=tresholdB))
         {
-            std::cout << "Buchungspreis " << buchung->getPrice() << " gehoert zu Kategorie B" << std::endl;
-            std::pair<std::shared_ptr<Booking>,QString> paar = std::make_pair<>(kundBuchung[i],"B");
+            std::cout << "KundenId " << price.first->getId() << " gehoert zu Kategorie B" << std::endl;
+            std::pair<std::shared_ptr<Customer>,QString> paar = std::make_pair<>(price.first,"B");
             grenze.push_back(paar);
         }
         else
         {
-            std::cout << "Buchungspreis " << buchung->getPrice() << " gehoert zu Kategorie A" << std::endl;
-            std::pair<std::shared_ptr<Booking>,QString> paar = std::make_pair<>(kundBuchung[i],"A");
+            std::cout << "KundenId " << price.first->getId() << " gehoert zu Kategorie A" << std::endl;
+            std::pair<std::shared_ptr<Customer>,QString> paar = std::make_pair<>(price.first,"A");
             grenze.push_back(paar);
         }
         i++;
@@ -350,7 +359,14 @@ std::string TravelAgency::readFile(QString fileName)
                     allCustomers.push_back(customer);
                 }
 
-                allCustomers.at(allCustomers.size()-1)->addTravel(travel);
+                for(int i=0;i<allCustomers.size();i++)
+                {
+                    if(allCustomers[i]->getId()==customerID1)
+                    {
+                        allCustomers.at(i)->addTravel(travel);
+                    }
+                }
+                //allCustomers.at(allCustomers.size()-1)->addTravel(travel);
 
                 flugbuchungen1++;
                 flugbuchengenPreis1+=preis1;
@@ -466,7 +482,14 @@ std::string TravelAgency::readFile(QString fileName)
                     allCustomers.push_back(customer);
                 }
 
-                allCustomers.at(allCustomers.size()-1)->addTravel(travel);
+                for(int i=0;i<allCustomers.size();i++)
+                {
+                    if(allCustomers[i]->getId()==customerID1)
+                    {
+                        allCustomers.at(i)->addTravel(travel);
+                    }
+                }
+                //allCustomers.at(allCustomers.size()-1)->addTravel(travel);
 
                 Autobuchungen1++;
                 AutobuchungenPreis1+=preis1;
@@ -578,7 +601,14 @@ std::string TravelAgency::readFile(QString fileName)
                     allCustomers.push_back(customer);
                 }
 
-                allCustomers.at(allCustomers.size()-1)->addTravel(travel);
+                for(int i=0;i<allCustomers.size();i++)
+                {
+                    if(allCustomers[i]->getId()==customerID1)
+                    {
+                        allCustomers.at(i)->addTravel(travel);
+                    }
+                }
+                //allCustomers.at(allCustomers.size()-1)->addTravel(travel);
 
                 Hotelreservierungen1++;
                 HotelreserbierungenPreis1+=preis1;

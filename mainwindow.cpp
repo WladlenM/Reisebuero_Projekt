@@ -1678,58 +1678,53 @@ void MainWindow::on_actionPruefergebnisse_triggered()
 
 void MainWindow::on_actionABC_Analyse_triggered()
 {
-        QDialog abc;
-        abc.setWindowTitle("ABC-Analyse");
-            abc.setWindowFlag(Qt::Popup);
-
-        QSpinBox *kundId = new QSpinBox(&abc);
-            QLabel *label = new QLabel(&abc);
-        label->setText("KundenId eingeben: ");
-        QPushButton* buttonSuchen= new QPushButton("Suchen", &abc);
-        QPushButton* buttonSchliessen = new QPushButton("Schließen", &abc);
-
-        QObject::connect(buttonSuchen, &QPushButton::clicked, &abc, &QDialog::accept);
-        QObject::connect(buttonSchliessen, &QPushButton::clicked, &abc, &QDialog::close);
-        QFormLayout* layoutneu = new QFormLayout(&abc);
-        layoutneu->addRow(label,kundId);
-        layoutneu->addRow(buttonSuchen,buttonSchliessen);
-
-        if(abc.exec()==QDialog::Accepted)
-        {
         QDialog abcAusgabe;
         abcAusgabe.setWindowTitle("ABC-Analyse");
             abcAusgabe.setWindowFlag(Qt::Popup);
 
-            long kid = kundId->value();
-            std::vector<std::pair<std::shared_ptr<Booking>,QString>> abc = ReiseAgentur.abcAnalyse(kid,"A");
+            std::vector<std::pair<std::shared_ptr<Customer>,QString>> abc = ReiseAgentur.abcAnalyse();
 
             int zeilen = abc.size();
 
             QTableWidget* ergebnisseTableWidget = new QTableWidget(zeilen,5,&abcAusgabe);
-            ergebnisseTableWidget->setHorizontalHeaderLabels({"Buchungstyp","Preis","Prozent","kumuliert","Klasse"});
+            ergebnisseTableWidget->setHorizontalHeaderLabels({"Kunde","Preis","Prozent","kumuliert","Klasse"});
             int i=0;
-            double total=0.0;
+            double gesamtTotal=0.0;
             double prozent=0.0;
+            std::vector<double> kundTotal;
 
-            for(auto &buchung : abc)
+            for(auto& cust : abc)
             {
-                total = total + buchung.first->getPrice();
+                double total = 0.0;
+                for(auto& trav : cust.first->getTravelList())
+                {
+                    for(auto &buchung : trav->getTravelBookings())
+                    {
+                        total = total + buchung->getPrice();
+                    }
+                }
+                    kundTotal.push_back(total);
+            }
+
+            for(auto& gtotal : kundTotal)
+            {
+                    gesamtTotal = gesamtTotal+gtotal;
             }
 
             for(auto &item : abc)
             {
-            std::string typstd = item.first->showDetails();
+            /*std::string typstd = item.first->showDetails();
             QString qtyp = QString::fromStdString(typstd);
                 if(qtyp.contains("Flugbuchung"))
-                {
-                    ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem("Flugbuchung"));
-                    ergebnisseTableWidget->setItem(i,1,new QTableWidgetItem(QString::number(item.first->getPrice())));
-                    ergebnisseTableWidget->setItem(i,2,new QTableWidgetItem(QString::number((item.first->getPrice()/total)*100)));
-                    prozent = prozent + (item.first->getPrice()/total)*100;
+                {*/
+                    ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem(QString::number(item.first->getId())));
+                    ergebnisseTableWidget->setItem(i,1,new QTableWidgetItem(QString::number(kundTotal[i])));
+                    ergebnisseTableWidget->setItem(i,2,new QTableWidgetItem(QString::number((kundTotal[i]/gesamtTotal)*100)));
+                    prozent = prozent + (kundTotal[i]/gesamtTotal)*100;
                     ergebnisseTableWidget->setItem(i,3,new QTableWidgetItem(QString::number(prozent)));
                     ergebnisseTableWidget->setItem(i,4,new QTableWidgetItem(item.second));
 
-                }
+                /*}
                 else if(qtyp.contains("Hotelreservierung"))
                 {
                     ergebnisseTableWidget->setItem(i,0,new QTableWidgetItem("Hotelreservierung"));
@@ -1749,7 +1744,7 @@ void MainWindow::on_actionABC_Analyse_triggered()
                     ergebnisseTableWidget->setItem(i,3,new QTableWidgetItem(QString::number(prozent)));
                     ergebnisseTableWidget->setItem(i,4,new QTableWidgetItem(item.second));
 
-                }
+                }*/
                 i++;
             }
 
@@ -1779,12 +1774,7 @@ void MainWindow::on_actionABC_Analyse_triggered()
             QVBoxLayout *layout = new QVBoxLayout(&abcAusgabe);
             layout->addWidget(ergebnisseTableWidget);
 
-            abcAusgabe.exec();
-        }
-        else
-        {
-            abc.close();
-        }
+            abcAusgabe.exec();       
 
 }
 
