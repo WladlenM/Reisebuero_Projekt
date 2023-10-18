@@ -254,7 +254,7 @@ void MainWindow::on_actionSuchen_triggered()
         QStringList headerLabels;
         headerLabels << "Reise-ID" << "Beginn der Reise" << "Ender der Reise";
         ui->tableWidgetReisen->setHorizontalHeaderLabels(headerLabels);
-        for(int i=0;i<ReiseAgentur.getAllTravels().size();i++)
+        for(size_t i=0;i<ReiseAgentur.getAllTravels().size();i++)
         {
             if(ReiseAgentur.getAllTravels()[i]->getCustomerId()==KundenId)
             {

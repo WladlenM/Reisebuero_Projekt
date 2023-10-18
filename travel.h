@@ -9,17 +9,31 @@
 //#include <digraph.h>
 #include <graph.h>
 #include <queue>
+#include "flightbooking.h"
+#include "hotelbooking.h"
+#include "rentalcarreservation.h"
 
 
 
 class Travel
 {
+public:
+    class Info{
+    public:
+        Info() {}
+        int fromDate;
+        int toDate;
+        string type;
+    };
 private:
     Graph<std::shared_ptr<Booking>,50> graph;
     long id;
     long customerId;
     std::vector<std::shared_ptr<Booking>> travelBookings;
     std::vector<int> dependencies;
+    bool checkUselessHotel(vector<Info> &daten);
+    int indexNaechteFlight(vector<Info> &daten, int index);
+    bool checkUselessCar(vector<Info> &daten);
 public:
     Travel(long id, long customerID1);
     ~Travel();

@@ -258,7 +258,12 @@ bool Travel::checkEnoughHotels()
     {        
         if(dates[i].second!=dates[i+1].first&&i+1<dates.size())
         {
-            return false;
+            int fromDate = std::stoi(dates[i+1].first);
+            int toDate = std::stoi(dates[i].second);
+            if(toDate-fromDate<0)
+            {
+                return false;
+            }
         }
     }
 
@@ -267,7 +272,38 @@ bool Travel::checkEnoughHotels()
 
 bool Travel::checkNoUselessHotels()
 {
-    std::vector<std::pair<std::string,std::string>> datesHotel;
+    vector<Info> daten;
+    for(int i=0;i<dependencies.size();i++)
+    {
+        if(typeid(*travelBookings.at(dependencies[i]))==typeid(RentalCarReservation&))
+        {
+            continue;
+        }else
+        {
+            int fromDate =std::stoi(travelBookings.at(dependencies[i])->getFromDate());
+            int toDate =std::stoi(travelBookings.at(dependencies[i])->getToDate());
+            if(typeid(*travelBookings.at(dependencies[i]))==typeid(HotelBooking&))
+            {
+                Info info;
+                info.fromDate=fromDate;
+                info.toDate=toDate;
+                info.type="Hotel";
+                daten.push_back(info);
+            }
+            else
+            {
+                Info info;
+                info.fromDate=fromDate;
+                info.toDate=toDate;
+                info.type="Flight";
+                daten.push_back(info);
+            }
+
+        }
+    }
+    return checkUselessHotel(daten);
+
+    /*std::vector<std::pair<std::string,std::string>> datesHotel;
     std::vector<std::pair<std::string,std::string>> datesFlug;
     for(int i=0;i<dependencies.size();i++)
     {
@@ -302,12 +338,86 @@ bool Travel::checkNoUselessHotels()
         }
     }
 
-    return status;
+    return status;*/
+}
+
+bool Travel::checkUselessHotel(vector<Info> &daten)
+{
+    for(int i=0;i<daten.size();i++)
+    {
+        if(daten[i].type=="Flight"&&i+1<daten.size())
+        {
+            int j=indexNaechteFlight(daten,i);
+            //hotel in der Mitte
+            if(daten[i+1].type=="Hotel"&&j<daten.size())
+            {
+                if(daten[j].fromDate-daten[i].toDate<daten[i+1].toDate-daten[i+1].fromDate)
+                {
+                    return false;
+                }
+            }
+            //hotel am ende
+            if(daten[i+1].type=="Hotel"&&j>daten.size())
+            {
+                if(daten[i+1]/*daten[daten.size()-1]*/.fromDate-daten[i].toDate<1)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+int Travel::indexNaechteFlight(vector<Info> &daten, int index)
+{
+    index++;
+    while(index<daten.size())
+    {
+        if(daten[index].type=="Flight")
+        {
+            return index;
+        }
+        index++;
+    }
+    return 10000;
 }
 
 bool Travel::checkNoUselessRentalCars()
 {
-    std::vector<std::pair<std::string,std::string>> datesRental;
+
+    vector<Info> daten;
+    for(int i=0;i<dependencies.size();i++)
+    {
+        if(typeid(*travelBookings.at(dependencies[i]))==typeid(HotelBooking&))
+        {
+            continue;
+        }
+        else
+        {
+            int fromDate =std::stoi(travelBookings.at(dependencies[i])->getFromDate());
+            int toDate =std::stoi(travelBookings.at(dependencies[i])->getToDate());
+            if(typeid(*travelBookings.at(dependencies[i]))==typeid(RentalCarReservation&))
+            {
+                Info info;
+                info.fromDate=fromDate;
+                info.toDate=toDate;
+                info.type="rentalCar";
+                daten.push_back(info);
+            }
+            else
+            {
+                Info info;
+                info.fromDate=fromDate;
+                info.toDate=toDate;
+                info.type="Flight";
+                daten.push_back(info);
+            }
+
+        }
+    }
+    return checkUselessCar(daten);
+    /*std::vector<std::pair<std::string,std::string>> datesRental;
     for(int i=0;i<dependencies.size();i++)
     {
         std::string typ = travelBookings[dependencies[i]]->showDetails();
@@ -328,7 +438,26 @@ bool Travel::checkNoUselessRentalCars()
         }
     }
 
-    return status;
+    return status;*/
+}
+
+bool Travel::checkUselessCar(vector<Info> &daten)
+{
+    for(int i=0;i<daten.size();i++)
+    {
+        if(daten[i].type=="Flight"&&i+1<daten.size())
+        {
+            int j=indexNaechteFlight(daten,i);
+            if(daten[i+1].type=="rentalCar"&&j<daten.size())
+            {
+                if(daten[j].fromDate-daten[i].toDate<daten[i+1].toDate-daten[i+1].fromDate)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 Travel::Travel(long ID, long KundeId)

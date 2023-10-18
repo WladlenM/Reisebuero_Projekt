@@ -1,8 +1,9 @@
 #include <iostream>
 
-#include "mainwindow.h"
+//#include "mainwindow.h"
 #include <travelagency.h>
 #include <QtTest/QtTest>
+#include <mainwindow.h>
 
 #include <QApplication>
 
